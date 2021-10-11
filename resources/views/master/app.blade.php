@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="/style/plugins/owl.carousel/dist/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="/style/plugins/owl.carousel/dist/assets/owl.theme.default.min.css">
         <link rel="stylesheet" href="/style/dist/css/theme.min.css">
+        @yield('cssStyle')
         <script src="/style/src/js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
 
@@ -103,21 +104,26 @@
                         <div class="nav-container">
                             <nav id="main-menu-navigation" class="navigation-main">
                                 <div class="nav-lavel">General</div>
-                                <div class="nav-item active">
-                                    <a href="index.html"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                                <div class="nav-item {{Route::is('home') ? 'active' : ''}}">
+                                    <a href="{{route('home')}}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                                </div>
+
+                                <div class="nav-lavel">User</div>
+                                <div class="nav-item {{Route::is('user.index') ? 'active' : ''}}">
+                                    <a href="{{route('user.index')}}"><i class="ik ik-users"></i><span>User</span></a>
                                 </div>
 
                                 <div class="nav-lavel">Product</div>
-                                <div class="nav-item active">
-                                    <a href="index.html"><i class="ik ik-bar-chart-2"></i><span>Kategori</span></a>
+                                <div class="nav-item {{Route::is('category.index') ? 'active' : ''}}">
+                                    <a href="{{route('category.index')}}"><i class="ik ik-list"></i><span>Kategori</span></a>
                                 </div>
-                                <div class="nav-item active">
-                                    <a href="index.html"><i class="ik ik-bar-chart-2"></i><span>Data Barang</span></a>
+                                <div class="nav-item {{Route::is('product.index') ? 'active' : ''}}">
+                                    <a href="{{route('product.index')}}"><i class="ik ik-box"></i><span>Data Barang</span></a>
                                 </div>
 
                                 <div class="nav-lavel">Transaksi</div>
-                                <div class="nav-item active">
-                                    <a href="index.html"><i class="ik ik-bar-chart-2"></i><span>Data Transaksi</span></a>
+                                <div class="nav-item {{Route::is('order.index') ? 'active' : ''}}">
+                                    <a href="{{route('order.index')}}"><i class="ik ik-shopping-cart"></i><span>Data Transaksi</span></a>
                                 </div>
                                 
                             </nav>
@@ -128,7 +134,33 @@
                 <!-- SECTION FOR CHILD VIEW-->
                 <div class="main-content">
                     <div class="container-fluid">
-                        <!-- YIELD -->
+                        <div class="page-header">
+                            <div class="row align-items-end">
+                                <div class="col-lg-8">
+                                    <div class="page-header-title">
+                                        @yield('iconHeader')
+                                        <!-- <i class="ik ik-edit bg-blue"></i> -->
+                                        <div class="d-inline">
+                                            <h5>@yield('titleHeader')</h5>
+                                            <span>@yield('subtitleHeader')</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <nav class="breadcrumb-container" aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="../index.html"><i class="ik ik-home"></i></a>
+                                            </li>
+                                            @yield('breadcrumb')
+                                            <!-- <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Components</li> -->
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        @yield('content')
                     </div>
                 </div>
 
@@ -366,6 +398,7 @@
             </div>
         </div>
         
+        <!-- STYLE FOR JAVASCRIPT -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script>window.jQuery || document.write('<script src="/style/src/js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
         <script src="/style/plugins/popper.js/dist/umd/popper.min.js"></script>
@@ -386,6 +419,7 @@
         <script src="/style/js/widgets.js"></script>
         <script src="/style/js/charts.js"></script>
         <script src="/style/dist/js/theme.min.js"></script>
+        @yield('jsStyle')
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
