@@ -30,7 +30,7 @@ Halaman Edit Data Barang
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" action="" method="POST" style="padding-bottom: 50px;">
+                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('product.update', $id)}}" method="POST" style="padding-bottom: 50px;">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -39,7 +39,7 @@ Halaman Edit Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" value="" name="product_code">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" value="{{$product->product_code}}" name="product_code" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -48,7 +48,7 @@ Halaman Edit Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" value="" name="product_name">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" value="{{$product->product_name}}" name="product_name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,7 +59,7 @@ Halaman Edit Data Barang
                             </span>
                             <select name="category_id" class="select2 form-control" id="default-select">
                                 @foreach($categories as $category) 
-                                    <option value="{{$category->id}}" name="category_id">{{$category->category_name}}</option>
+                                    <option value="{{$category->id}}" {{$category->id==$product->category_id? ' selected' : ' '}}>{{$category->category_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,11 +70,18 @@ Halaman Edit Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text">IDR</label>
                             </span>
-                            <input type="number" class="form-control form-control-capitalize " placeholder="ex: 100000" value="" name="product_price">
+                            <input type="number" class="form-control form-control-capitalize " placeholder="ex: 100000" value="{{$product->product_price}}" name="product_price">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Gambar barang</label>
+                        <input type="hidden" name="oldImage" value="{{$product->product_image}}">
+                        @if($product->product_image)
+                            <img src="{{ asset('storage/' . $product->product_image)}}" class="img-preview img-fluid mb-3 col-sm-3 d-block">
+                        @else
+                            <img class="img-preview img-fluid mb-3 col-sm-3">
+                        @endif
+                        
                         <div class="input-group mb-4">
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-upload"></i></label>
@@ -88,12 +95,12 @@ Halaman Edit Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="number" class="form-control form-control-capitalize " placeholder="ex: 15" value="" name="product_stock">
+                            <input type="number" class="form-control form-control-capitalize " placeholder="ex: 15" value="{{$product->product_stock}}" name="product_stock">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Barang</label>
-                        <textarea name="product_desc" class="form-control html-editor" rows="3"></textarea>
+                        <textarea name="product_desc" class="form-control html-editor" rows="3">{{$product->product_desc}}</textarea>
                     </div>
                     <div class="footer-buttons">
                     <a class="fixedButtonRefresh" href="">

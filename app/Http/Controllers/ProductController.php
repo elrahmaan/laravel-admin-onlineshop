@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -37,11 +38,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->file('image')->store('product');
-
-
-        // Product::create($request->all());
-        // return redirect()->route('product.index');
+        $validatedData = $request->validate([
+            'product_code' => 'required|unique:products',
+            'product_name' => 'required|unique:products',
+            'product_image' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'product_price' => 'required',
+            'product_desc' => 'required',
+            'product_stock' => 'required',
+            'category_id' => 'required'
+        ]);
+        if($request->file('product_image')){
+            $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+        }
+        Product::create($validatedData);
+        return redirect()->route('product.index')->with('success', 'Data barang berhasil ditambahkan');
     }
 
     /**
@@ -63,7 +73,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $id = $product->id;
+        $categories = Category::all();
+        return view('product.product_edit', compact('product','id','categories'));
     }
 
     /**
@@ -75,7 +88,26 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'product_code' => 'required',
+            'product_name' => 'required',
+            'product_image' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'product_price' => 'required',
+            'product_desc' => 'required',
+            'product_stock' => 'required',
+            'category_id' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        if($request->file('product_image')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+        }
+        Product::where('id', $id)->update($validatedData);
+        return redirect()->route('product.index')->with('success', 'Data barang berhasil diubah');
     }
 
     /**
@@ -86,6 +118,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        if($product->product_image){
+            Storage::delete($product->product_image);
+        }
+        Product::destroy($product->id);
+        return redirect()->route('product.index')->with('success', 'Data barang berhasil dihapus');
     }
 }

@@ -30,7 +30,8 @@ Halaman Pembuatan Data Barang
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" action="" method="POST" style="padding-bottom: 50px;">
+                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('product.store')}}" method="POST" style="padding-bottom: 50px;">
+                @csrf
                     <div class="form-group">
                         <label>Kode Barang</label>
                         <div class="input-group mb-4">
