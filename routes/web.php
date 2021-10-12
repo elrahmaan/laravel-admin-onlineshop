@@ -35,7 +35,10 @@ Route::get('/category/{id}/delete', [CategoryController::class, 'destroy'])->nam
 
 Route::get('/product', [ProductController::class, 'index'])->name('product');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
 Route::get('/product/edit', [ProductController::class, 'edit'])->name('product.edit');
+Route::post('/product/{id}/update', [ProductController::class, 'update'])->name('product.update');
+Route::get('/product/{id}/delete', [ProductController::class, 'destroy'])->name('product.destroy');
 
 Route::get('/order', [OrderController::class, 'index'])->name('order');
 Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
@@ -44,5 +47,5 @@ Route::get('/order/edit', [OrderController::class, 'edit'])->name('order.edit');
 
 Route::resource('user', UserController::class)->only(['index','create','edit']);
 Route::resource('category', CategoryController::class)->except(['show']);
-Route::resource('product', ProductController::class)->only(['index','create','edit']);
+Route::resource('product', ProductController::class)->except(['show']);
 Route::resource('order', OrderController::class)->only(['index','create','edit']);
