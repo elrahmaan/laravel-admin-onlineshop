@@ -21,12 +21,28 @@ use App\Http\Controllers\OrderController;
 //     return view('master.app');
 // });
 Route::get('/home', [DashboardController::class, 'index'])->name('home');
-Route::get('/user', [UserController::class, 'index'])->name('user');
-Route::get('/category', [CategoryController::class, 'index'])->name('category');
-Route::get('/product', [ProductController::class, 'index'])->name('product');
-Route::get('/order', [OrderController::class, 'index'])->name('order');
 
-Route::resource('user', UserController::class)->only(['index']);
-Route::resource('category', CategoryController::class)->only(['index']);
-Route::resource('product', ProductController::class)->only(['index']);
-Route::resource('order', OrderController::class)->only(['index']);
+Route::get('/user', [UserController::class, 'index'])->name('user');
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
+
+Route::get('/category', [CategoryController::class, 'index'])->name('category');
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+Route::post('/category/{id}/update', [CategoryController::class, 'update'])->name('category.update');
+Route::get('/category/{id}/delete', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+Route::get('/product', [ProductController::class, 'index'])->name('product');
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::get('/product/edit', [ProductController::class, 'edit'])->name('product.edit');
+
+Route::get('/order', [OrderController::class, 'index'])->name('order');
+Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+Route::get('/order/edit', [OrderController::class, 'edit'])->name('order.edit');
+
+
+Route::resource('user', UserController::class)->only(['index','create','edit']);
+Route::resource('category', CategoryController::class)->except(['show']);
+Route::resource('product', ProductController::class)->only(['index','create','edit']);
+Route::resource('order', OrderController::class)->only(['index','create','edit']);

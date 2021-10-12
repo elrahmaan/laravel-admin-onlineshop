@@ -33,7 +33,29 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        <style>
+            .fixedButtonAdd {
+                position: fixed;
+                bottom: 10px;
+                right: 50px;
+            }
 
+            .fixedButtonRefresh {
+                position: fixed;
+                bottom: 10px;
+                right: 110px;
+            }
+
+            .footer-buttons .btn-icon {
+                width: 50px;
+                height: 50px;
+                color: white;
+                line-height: 2.5;
+                font-size: 20px;
+                border-radius: 100%;
+            }
+
+        </style>
         <div class="wrapper">
             <!-- NAVBAR -->
             <header class="header-top" header-theme="light">
@@ -163,7 +185,9 @@
                         @yield('content')
                     </div>
                 </div>
-
+                <div class='footer-buttons'>
+                    @yield('fixedButton')
+                </div>
                 <aside class="right-sidebar">
                     <div class="sidebar-chat" data-plugin="chat-sidebar">
                         <div class="sidebar-chat-info">
