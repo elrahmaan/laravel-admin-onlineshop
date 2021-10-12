@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +18,9 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('master.app');
-// });
+Route::get('/', function () {
+    return view('auth.login');
+});
 Route::get('/home', [DashboardController::class, 'index'])->name('home');
 
 Route::get('/user', [UserController::class, 'index'])->name('user');
@@ -45,7 +46,9 @@ Route::get('/order/create', [OrderController::class, 'create'])->name('order.cre
 Route::get('/order/edit', [OrderController::class, 'edit'])->name('order.edit');
 
 
-Route::resource('user', UserController::class)->only(['index','create','edit']);
+Route::resource('user', UserController::class)->only(['index', 'create', 'edit']);
 Route::resource('category', CategoryController::class)->except(['show']);
 Route::resource('product', ProductController::class)->except(['show']);
 Route::resource('order', OrderController::class)->only(['index','create','edit']);
+
+Auth::routes();
