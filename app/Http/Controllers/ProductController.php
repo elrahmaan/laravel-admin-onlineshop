@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use \Yajra\Datatables\Datatables;
 
 class ProductController extends Controller
 {
@@ -16,7 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.index');
+        $products = Product::all();
+        $categories = Category::all();
+        return view('product.index', compact('products','categories'));
+        
     }
 
     /**
