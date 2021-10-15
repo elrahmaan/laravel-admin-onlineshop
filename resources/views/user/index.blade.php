@@ -38,6 +38,7 @@ Halaman Data User
                                 <!-- <th class="nosort">Avatar</th> -->
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Aksi</th>
                                 <!-- <th>Kategori</th>
                                 <th>Harga</th>
                                 <th>Stok</th>
@@ -83,6 +84,19 @@ Halaman Data User
         </div>
     </div>
 </div>
+
+<!-- <script>
+    $(document).ready(function() {
+        $(document).on('click', '#select', function() {
+            var name = $(this).data('name');
+            var email = $(this).data('email');
+            $('#name').val(name);
+            $('#email').val(email);
+            $('#productModal').modal('hide');
+        })
+    })
+</script> -->
+
 <script type="text/javascript">
     $(document).ready(function() {
 

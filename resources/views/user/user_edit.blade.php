@@ -59,34 +59,34 @@ Halaman Edit Data User
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password" value="{{$user->password}}">
+                            <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password"">
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label>Deskripsi Kategori</label>
-                        <div class="input-group">
-                            <span class="input-group-prepend">
-                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
-                            </span>
-                            <select name="regional_id" class="select2 form-control" id="default-select">
-                                
-                                <option value=""></option>
-                                
-                            </select>
+                    <!-- <div class=" form-group">
+                            <label>Deskripsi Kategori</label>
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                </span>
+                                <select name="regional_id" class="select2 form-control" id="default-select">
+
+                                    <option value=""></option>
+
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="footer-buttons">
+                            <a class="fixedButtonRefresh" href="">
+                                <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Kembali">
+                                    <i class="ik ik-arrow-left"></i>
+                                </button>
+                            </a>
+                            <a class="fixedButtonAdd" href="">
+                                <button data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
+                                    <i class="ik ik-save"></i>
+                                </button>
+                            </a>
                         </div>
-                    </div> -->
-                    <div class="footer-buttons">
-                        <a class="fixedButtonRefresh" href="">
-                            <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Kembali">
-                                <i class="ik ik-arrow-left"></i>
-                            </button>
-                        </a>
-                        <a class="fixedButtonAdd" href="">
-                            <button data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
-                                <i class="ik ik-save"></i>
-                            </button>
-                        </a>
-                    </div>
                 </form>
             </div>
             <!-- /.box-body -->
