@@ -43,6 +43,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
             // 'role' => $request->role,
             // 'image' => $image,
             // 'address' => $request->address,
@@ -91,6 +92,7 @@ class UserController extends Controller
         $users->name = $request->name;
         $users->email = $request->email;
         $users->password = Hash::make($request->password);
+        $users->role = $request->role;
         // $users->role = $request->role;
         // if ($users->image && file_exists(storage_path('app/public/' . $users->image))) {
         //     \Storage::delete('public' . $users->image);

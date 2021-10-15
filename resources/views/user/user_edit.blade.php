@@ -62,7 +62,14 @@ Halaman Edit Data User
                             <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password"">
                         </div>
                     </div>
-                    <!-- <div class=" form-group">
+                    <div class=" form-group">
+                            <label for="exampleFormControlSelect1">Role</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="role">
+                                <option>Administrator</option>
+                                <option>Customer</option>
+                            </select>
+                        </div>
+                        <!-- <div class=" form-group">
                             <label>Deskripsi Kategori</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">

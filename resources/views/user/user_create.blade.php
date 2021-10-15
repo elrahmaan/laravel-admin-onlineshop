@@ -69,6 +69,13 @@ Halaman Pembuatan Data User
                             <input type="password" class="form-control form-control-capitalize " placeholder="Input password" name="password">
                         </div>
                     </div>
+                    <div class=" form-group">
+                        <label for="exampleFormControlSelect1">Role</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="role">
+                            <option>Administrator</option>
+                            <option>Customer</option>
+                        </select>
+                    </div>
                     <!-- <div class="form-group">
                         <label>Deskripsi Kategori</label>
                         <textarea name="category_desc" class="form-control html-editor" rows="5"></textarea>
