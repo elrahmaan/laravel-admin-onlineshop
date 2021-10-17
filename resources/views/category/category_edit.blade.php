@@ -30,18 +30,18 @@ Halaman Edit Data Kategori Barang
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-            <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('category.update', $id)}}" method="POST" style="padding-bottom: 50px;">
+            <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('category.update', $category->id())}}" method="POST" style="padding-bottom: 50px;">
                     @csrf
                     @method('PUT')
                     <input type="hidden" class="form-control form-control-capitalize " placeholder="Kode Produk"
-                                name="kode" value="{{$category->id}}" readonly>
+                                name="kode" value="{{$category->id()}}" readonly>
                     <div class="form-group">
                         <label>Kode Kategori</label>
                         <div class="input-group">
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" name="category_code" value="{{$category->category_code}}">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" name="category_code" value="{{$category['category_code']}}">
                         </div>
                     </div>
 
@@ -51,12 +51,12 @@ Halaman Edit Data Kategori Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Nama Kategori" name="category_name" value="{{$category->category_name}}">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Nama Kategori" name="category_name" value="{{$category['category_name']}}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi Kategori</label>
-                        <textarea name="category_desc" class="form-control html-editor" rows="5">{{$category->category_code}}</textarea>
+                        <textarea name="category_desc" class="form-control html-editor" rows="5">{{$category['category_desc']}}</textarea>
                     </div>
                     <!-- <div class="form-group">
                         <label>Deskripsi Kategori</label>
