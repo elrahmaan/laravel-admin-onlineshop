@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use JWTAuth;
 
 class User extends Authenticatable
 {
@@ -26,6 +28,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'address',
+        'role'
     ];
 
     /**
@@ -46,4 +51,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+    public static function checkToken($token){
+        if($token->token){
+            return true;
+        }
+        return false;
+    }
+    public static function getCurrentUser($request){
+        if(!User::checkToken($request)){
+            return response()->json([
+                'message' => 'Token is required'
+            ],422);
+        }    
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user;
+    }
 }
