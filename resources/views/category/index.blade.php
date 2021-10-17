@@ -47,9 +47,9 @@ Halaman Data Kategori Barang
                             @foreach($category as $cat)
                             <tr>
                                 <!-- <td>{{$no++}}</td> -->
-                                <td>{{$cat->category_code}}</td>
-                                <td>{{$cat->category_name}}</td>
-                                <td>{{$cat->category_desc}}</td>
+                                <td>{{$cat['category_code']}}</td>
+                                <td>{{$cat['category_name']}}</td>
+                                <td>{{$cat['category_desc']}}</td>
                                 <td align="center">
                                     <a><button type="button" class="btn btn-info" style="width:35px;" data-toggle="modal" data-target="#productModal"><i class="ik ik-eye"></i></button></a>
                                     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
@@ -60,9 +60,9 @@ Halaman Data Kategori Barang
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>{{$cat->category_code}}</p>
-                                                    <p>{{$cat->category_name}}</p>
-                                                    <p>{{$cat->category_desc}}</p>
+                                                    <p>{{$cat['category_code']}}</p>
+                                                    <p>{{$cat['category_name']}}</p>
+                                                    <p>{{$cat['category_desc']}}</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
@@ -70,8 +70,8 @@ Halaman Data Kategori Barang
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="/category/{{$cat->id}}/edit"><button type="button" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
-                                    <a href="/category/{{$cat->id}}/delete"><button type="button" class="btn btn-danger" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
+                                    <a href="/category/{{$cat->id()}}/edit"><button type="button" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
+                                    <a href="/category/{{$cat->id()}}/delete"><button type="button" class="btn btn-danger" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
                                 </td>
                             </tr>
                             @endforeach
