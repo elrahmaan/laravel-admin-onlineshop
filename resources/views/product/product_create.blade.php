@@ -56,9 +56,9 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <select name="category_id" class="select2 form-control" id="default-select">
+                            <select name="product_category" class="select2 form-control" id="categoryInput">
                                 @foreach($categories as $category) 
-                                    <option value="{{$category->id}}" name="category_id">{{$category->category_name}}</option>
+                                    <option value="{{$category['category_name']}}">{{$category['category_name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -130,6 +130,24 @@ Halaman Pembuatan Data Barang
             imgPreview.src = oFREvent.target.result;
         }
     }
+    $(document).ready(function () {
+        var db = new FirestoreClient([
+        'projectId'=> 'online-shop-ce498'
+        ]);
+        
+        database.collection('categories').once('value', function(snapshot){
+        if(snapshot.exists()){
+            var cat_list = '';
+                snapshot.forEach(function(data){
+                    var val = data.val();
+                    cat_list += '<option value="' + val.category_name + '">' + val.category_name + '</option>';
+                });
+
+            $('#categoryInput').append(cat_list);
+
+        }
+    });
+    
     
 </script>
 @endsection

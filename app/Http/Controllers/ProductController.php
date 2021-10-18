@@ -7,9 +7,23 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use \Yajra\Datatables\Datatables;
+use Google\Cloud\Firestore\FirestoreClient;
 
 class ProductController extends Controller
 {
+    protected static $db;
+
+    protected static function firestoreDatabaseInstance(){
+        $db = new FirestoreClient([
+        'projectId'=> 'online-shop-ce498'
+        ]);
+
+        return $db;
+    }
+    public function __construct(){
+        static::$db = self::firestoreDatabaseInstance();
+    
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +31,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        $categories = Category::all();
+        // $products = Product::all();
+        // $categories = Category::all();
+        $categories = self::$db->collection('categories')->documents();
+        
+        $products = self::$db->collection('products')->orderBy('product_name')->documents();
+
         return view('product.index', compact('products','categories'));
         
     }
@@ -30,7 +48,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = self::$db->collection('categories')->documents();
         return view('product.product_create', compact('categories'));
     }
 
@@ -49,12 +67,24 @@ class ProductController extends Controller
             'product_price' => 'required',
             'product_desc' => 'required',
             'product_stock' => 'required',
-            'category_id' => 'required'
+            'product_category' => 'required'
         ]);
+        // dd($request->product_category);
         if($request->file('product_image')){
             $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+            $imageURL = 'http://localhost:8000/storage/' . $validatedData['product_image'];
         }
-        Product::create($validatedData);
+        $product = self::$db->collection('products');
+        $product->add([
+            'product_code' => $request->product_code,
+            'product_name' => $request->product_name,
+            'product_image' => $imageURL,
+            'product_price' => $request->product_price,
+            'product_desc' => $request->product_desc,
+            'product_stock' => $request->product_stock,
+            'product_category' => $request->product_category
+        ]);
+        // Product::create($validatedData);
         return redirect()->route('product.index')->with('success', 'Data barang berhasil ditambahkan');
     }
 
@@ -77,10 +107,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
-        $id = $product->id;
-        $categories = Category::all();
-        return view('product.product_edit', compact('product','id','categories'));
+        $product = self::$db->collection('products')->document($id)->snapshot();
+        $categories = self::$db->collection('categories')->documents();
+        // $product = Product::find($id);
+        // $id = $product->id;
+        // $categories = Category::all();
+        return view('product.product_edit', compact('product', 'categories'));
     }
 
     /**
@@ -93,13 +125,13 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'product_code' => 'required',
-            'product_name' => 'required',
+            'product_code' => 'required|unique:products',
+            'product_name' => 'required|unique:products',
             'product_image' =>'required|mimes:jpg,jpeg,png|max:5120',
             'product_price' => 'required',
             'product_desc' => 'required',
             'product_stock' => 'required',
-            'category_id' => 'required'
+            'product_category' => 'required'
         ];
 
         $validatedData = $request->validate($rules);
@@ -109,8 +141,20 @@ class ProductController extends Controller
                 Storage::delete($request->oldImage);
             }
             $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+            $imageURL = 'http://localhost:8000/storage/' . $validatedData['product_image'];
         }
-        Product::where('id', $id)->update($validatedData);
+        $product = self::$db->collection('products')->document($id);
+        $product->set([
+            'product_code' => $request->product_code,
+            'product_name' => $request->product_name,
+            'product_image' => $imageURL,
+            'product_price' => $request->product_price,
+            'product_desc' => $request->product_desc,
+            'product_stock' => $request->product_stock,
+            'product_category' => $request->product_category
+        ]);
+        // Product::where('id', $id)->update($validatedData);
+
         return redirect()->route('product.index')->with('success', 'Data barang berhasil diubah');
     }
 
@@ -122,12 +166,21 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
+        // $product = Product::find($id);
+        $product = self::$db->collection('products')->document($id);
+        $products = self::$db->collection('products')->orderBy('product_name')->documents();
 
-        if($product->product_image){
-            Storage::delete($product->product_image);
+        foreach($products as $prd){
+            if($prd->id() == $id){
+                $imageProduct = $prd['product_image'];
+            }
         }
-        Product::destroy($product->id);
+        
+        if($imageProduct){
+            Storage::delete(substr($imageProduct, 30, 200));
+        }        
+        $product->delete();
+        // Product::destroy($product->id);
         return redirect()->route('product.index')->with('success', 'Data barang berhasil dihapus');
     }
 }

@@ -48,14 +48,14 @@ Halaman Data Barang
                             @php $no=1; @endphp
                             @foreach($products as $product)
                             @foreach($categories as $category)
-                            @if($product->category_id==$category->id)
+                            @if($product['product_category']==$category['category_name'])
                             <tr>
                                 <td>{{$no++}}</td>
-                                <td>{{$product->product_code}}</td>
-                                <td>{{$product->product_name}}</td>
-                                <td>{{$category->category_name}}</td>
-                                <td>IDR {{$product->product_price}}</td>
-                                <td>{{$product->product_stock}}</td>
+                                <td>{{$product['product_code']}}</td>
+                                <td>{{$product['product_name']}}</td>
+                                <td>{{$category['category_name']}}</td>
+                                <td>IDR {{$product['product_price']}}</td>
+                                <td>{{$product['product_stock']}}</td>
                                 <td align="center">
                                     <a><button type="button" class="btn btn-info" style="width:35px;"
                                             data-toggle="modal" data-target="#productModal"><i
@@ -71,10 +71,10 @@ Halaman Data Barang
                                                             aria-hidden="true">&times;</span></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>{{$product->product_code}}</p>
-                                                    <p>{{$product->product_price}}</p>
-                                                    <p>{{$product->category_name}}</p>
-                                                    <p>{{$product->product_desc}}</p>
+                                                    <p>{{$product['product_code']}}</p>
+                                                    <p>{{$product['product_name']}}</p>
+                                                    <p>{{$category['category_name']}}</p>
+                                                    <p>{{$product['product_desc']}}</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary"
@@ -83,11 +83,11 @@ Halaman Data Barang
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="/product/{{$product->id}}/edit"><button type="button"
+                                    <a href="/product/{{$product->id()}}/edit"><button type="button"
                                             class="btn btn-warning"
                                             style="background-color:#ffc107; border:none; width:35px;"><i
                                                 class="ik ik-edit iconT"></i></button></a>
-                                    <a href="/product/{{$product->id}}/delete"><button type="button"
+                                    <a href="/product/{{$product->id()}}/delete"><button type="button"
                                             class="btn btn-danger" style="width:35px;"><i
                                                 class="ik ik-trash-2 iconT"></i></button></a>
                                 </td>
