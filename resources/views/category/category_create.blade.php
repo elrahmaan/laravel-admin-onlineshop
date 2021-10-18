@@ -52,6 +52,16 @@ Halaman Pembuatan Data Kategori Barang
                         </div>
                     </div>
                     <div class="form-group">
+                        <label>Icon Kategori</label>
+                        <img class="img-preview img-fluid mb-3 col-sm-2">
+                        <div class="input-group mb-4">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-upload"></i></label>
+                            </span>
+                            <input type="file" class="form-control form-control-capitalize" id="image" name="category_icon" style="padding:4px;" onchange="previewImage()">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Deskripsi Kategori</label>
                         <textarea name="category_desc" class="form-control html-editor" rows="5"></textarea>
                     </div>
@@ -87,4 +97,19 @@ Halaman Pembuatan Data Kategori Barang
         </div>
     </div>
 </div>
+<script>
+    function previewImage(){
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const ofReader = new FileReader();
+        ofReader.readAsDataURL(image.files[0]);
+
+        ofReader.onload = function(oFREvent){
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
+</script>
 @endsection

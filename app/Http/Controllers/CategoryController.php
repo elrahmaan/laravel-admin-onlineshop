@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 use Google\Cloud\Firestore\FirestoreClient;
 
 class CategoryController extends Controller
@@ -55,10 +56,22 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         // Category::create($request->all());
+        $validatedData = $request->validate([
+            'category_code' => 'required',
+            'category_name' => 'required',
+            'category_icon' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'category_desc' => 'required'
+        ]);
+        if($request->file('category_icon')){
+            $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            $imageURL = 'http://localhost:8000/storage/' . $validatedData['category_icon'];
+        }
+
         $category = self::$db->collection('categories');
         $category->add([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
+            'category_icon' => $imageURL,
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -101,10 +114,27 @@ class CategoryController extends Controller
     {
         // $category = Category::find($id);
         // $category->update($request->all());
+        $rules = [
+            'category_code' => 'required',
+            'category_name' => 'required',
+            'category_icon' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'category_desc' => 'required'
+        ];
+        $validatedData = $request->validate($rules);
+
+        if($request->file('category_icon')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            $imageURL = 'http://localhost:8000/storage/' . $validatedData['category_icon'];
+        }
+
         $category = self::$db->collection('categories')->document($id);
         $category->set([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
+            'category_icon' => $imageURL,
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -121,6 +151,17 @@ class CategoryController extends Controller
         // $category = Category::find($id);
         // $category->delete();
         $category = self::$db->collection('categories')->document($id);
+        $categories = self::$db->collection('categories')->documents();
+
+        foreach($categories as $ctg){
+            if($ctg->id() == $id){
+                $imageCategory = $ctg['category_icon'];
+            }
+        }
+        if($imageCategory){
+            Storage::delete(substr($imageCategory, 30, 200));
+        }   
+
         $category->delete();
         return redirect()->route('category.index');
     }
