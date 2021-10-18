@@ -130,24 +130,5 @@ Halaman Pembuatan Data Barang
             imgPreview.src = oFREvent.target.result;
         }
     }
-    $(document).ready(function () {
-        var db = new FirestoreClient([
-        'projectId'=> 'online-shop-ce498'
-        ]);
-        
-        database.collection('categories').once('value', function(snapshot){
-        if(snapshot.exists()){
-            var cat_list = '';
-                snapshot.forEach(function(data){
-                    var val = data.val();
-                    cat_list += '<option value="' + val.category_name + '">' + val.category_name + '</option>';
-                });
-
-            $('#categoryInput').append(cat_list);
-
-        }
-    });
-    
-    
 </script>
 @endsection

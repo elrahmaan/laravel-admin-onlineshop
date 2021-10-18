@@ -35,7 +35,7 @@ class ProductController extends Controller
         // $categories = Category::all();
         $categories = self::$db->collection('categories')->documents();
         
-        $products = self::$db->collection('products')->orderBy('product_name')->documents();
+        $products = self::$db->collection('products')->orderBy('product_code')->documents();
 
         return view('product.index', compact('products','categories'));
         
