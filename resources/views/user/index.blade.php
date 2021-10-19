@@ -36,6 +36,7 @@ Halaman Data User
                             <tr>
                                 <th>Id</th>
                                 <!-- <th class="nosort">Avatar</th> -->
+                                <th>Avatar</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -52,6 +53,7 @@ Halaman Data User
                             @foreach($users as $user)
                             <tr>
                                 <td>{{$no++}}</td>
+                                <td><img src="{{asset('storage/'.$user->image)}}" alt="users avatar" class="users-avatar-shadow rounded-circle" height="64" width="64"></td>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->role}}</td>
