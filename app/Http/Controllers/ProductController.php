@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use \Yajra\Datatables\Datatables;
 use Google\Cloud\Firestore\FirestoreClient;
 
@@ -31,8 +31,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $products = Product::all();
-        // $categories = Category::all();
         $categories = self::$db->collection('categories')->documents();
         
         $products = self::$db->collection('products')->orderBy('product_code')->documents();
@@ -71,13 +69,17 @@ class ProductController extends Controller
         ]);
         // dd($request->product_category);
         if($request->file('product_image')){
-            $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+            $product_file = $validatedData['product_image'];
+            $image_name =  time() . "." . $product_file->getClientOriginalExtension();
+            $path = public_path('/uploads/product-images/');
+            $product_file->move($path, $image_name);
+            $product_image = '/uploads/product-images/' . $image_name;
         }
         $product = self::$db->collection('products');
         $product->add([
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
-            'product_image' => $validatedData['product_image'],
+            'product_image' => $product_image,
             'product_price' => $request->product_price,
             'product_desc' => $request->product_desc,
             'product_stock' => $request->product_stock,
@@ -108,9 +110,6 @@ class ProductController extends Controller
     {
         $product = self::$db->collection('products')->document($id)->snapshot();
         $categories = self::$db->collection('categories')->documents();
-        // $product = Product::find($id);
-        // $id = $product->id;
-        // $categories = Category::all();
         return view('product.product_edit', compact('product', 'categories'));
     }
 
@@ -134,18 +133,22 @@ class ProductController extends Controller
         ];
 
         $validatedData = $request->validate($rules);
-
-        if($request->file('product_image')){
+        $product_file = $validatedData['product_image'];
+        if($product_file){
             if($request->oldImage){
-                Storage::delete($request->oldImage);
+                File::delete(public_path($request->oldImage));
             }
-            $validatedData['product_image'] = $request->file('product_image')->store('product-images');
+            $image_name = time() . "." . $product_file->getClientOriginalExtension();
+            $path = public_path('/uploads/product-images/');
+            File::makeDirectory($path, $mode = 0777, true, true);
+            $product_file->move($path, $image_name);
+            $product_image = '/uploads/product-images/' . $image_name;
         }
         $product = self::$db->collection('products')->document($id);
         $product->set([
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
-            'product_image' => $validatedData['product_image'],
+            'product_image' => $product_image,
             'product_price' => $request->product_price,
             'product_desc' => $request->product_desc,
             'product_stock' => $request->product_stock,
@@ -175,7 +178,7 @@ class ProductController extends Controller
         }
         
         if($imageProduct){
-            Storage::delete($imageProduct);
+            File::delete(public_path($imageProduct));
         }        
         $product->delete();
         // Product::destroy($product->id);

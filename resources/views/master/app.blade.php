@@ -440,6 +440,7 @@
     <script src="/style/js/charts.js"></script>
     <script src="/style/dist/js/theme.min.js"></script>
     @yield('jsStyle')
+    @yield('script')
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
         (function(b, o, i, l, e, r) {

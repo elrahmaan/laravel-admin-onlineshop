@@ -56,9 +56,9 @@ Halaman Edit Data Kategori Barang
                     </div>
                     <div class="form-group">
                         <label>Icon Kategori</label>
-                        <input type="hidden" name="oldImage" value="{{category['category_icon']}}">
+                        <input type="hidden" name="oldImage" value="{{$category['category_icon']}}">
                         @if($category['category_icon'])
-                        <img src="{{asset('storage/' . $category['category_icon'])}}"
+                        <img src="{{asset($category['category_icon'])}}"
                             class="img-preview img-fluid mb-3 col-sm-2 d-block">
                         @else
                         <img class="img-preview img-fluid mb-3 col-sm-2">

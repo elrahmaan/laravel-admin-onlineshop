@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Google\Cloud\Firestore\FirestoreClient;
 
 class CategoryController extends Controller
@@ -63,14 +63,19 @@ class CategoryController extends Controller
             'category_desc' => 'required'
         ]);
         if($request->file('category_icon')){
-            $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            // $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            $category_file = $validatedData['category_icon'];
+            $icon_name =  time() . "." . $category_file->getClientOriginalExtension();
+            $path = public_path('/uploads/category-icons/');
+            $category_file->move($path, $icon_name);
+            $category_icon = '/uploads/category-icons/' . $icon_name;
         }
 
         $category = self::$db->collection('categories');
         $category->add([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
-            'category_icon' => $validatedData['category_icon'],
+            'category_icon' => $category_icon,
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -120,19 +125,24 @@ class CategoryController extends Controller
             'category_desc' => 'required'
         ];
         $validatedData = $request->validate($rules);
-
+        $category_file = $validatedData['category_icon'];
         if($request->file('category_icon')){
             if($request->oldImage){
-                Storage::delete($request->oldImage);
+                File::delete(public_path($request->oldImage));
             }
-            $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            // $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
+            $icon_name = time() . "." . $category_file->getClientOriginalExtension();
+            $path = public_path('/uploads/category-icons/');
+            File::makeDirectory($path, $mode = 0777, true, true);
+            $category_file->move($path, $icon_name);
+            $category_icon = '/uploads/category-icons/' . $icon_name;
         }
 
         $category = self::$db->collection('categories')->document($id);
         $category->set([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
-            'category_icon' => $validatedData['category_icon'],
+            'category_icon' => $category_icon,
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -157,7 +167,7 @@ class CategoryController extends Controller
             }
         }
         if($imageCategory){
-            Storage::delete($imageCategory);
+            File::delete(public_path($imageCategory));
         }   
 
         $category->delete();

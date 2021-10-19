@@ -83,7 +83,7 @@ Halaman Edit Data Barang
                         <label>Gambar barang</label>
                         <input type="hidden" name="oldImage" value="{{$product['product_image']}}">
                         @if($product['product_image'])
-                        <img src="{{asset('storage/' . $product['product_image'])}}"
+                        <img src="{{asset($product['product_image'])}}"
                             class="img-preview img-fluid mb-3 col-sm-3 d-block">
                         @else
                         <img class="img-preview img-fluid mb-3 col-sm-3">
