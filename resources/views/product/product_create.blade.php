@@ -56,9 +56,9 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <select name="category_id" class="select2 form-control" id="default-select">
+                            <select name="product_category" class="select2 form-control" id="categoryInput">
                                 @foreach($categories as $category) 
-                                    <option value="{{$category->id}}" name="category_id">{{$category->category_name}}</option>
+                                    <option value="{{$category['category_name']}}">{{$category['category_name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -130,6 +130,5 @@ Halaman Pembuatan Data Barang
             imgPreview.src = oFREvent.target.result;
         }
     }
-    
 </script>
 @endsection

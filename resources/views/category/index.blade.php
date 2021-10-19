@@ -1,11 +1,10 @@
 @extends('master.app')
 
 @section('cssStyle')
-<link rel="stylesheet" href="/style/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
 @endsection
 
 @section('jsStyle')
-<link rel="stylesheet" href="/style/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<script src="/style/js/datatables.js"></script>
 @endsection
 
 @section('iconHeader')
@@ -34,6 +33,7 @@ Halaman Data Kategori Barang
 
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Category Code</th>
                                 <!-- <th class="nosort">Avatar</th> -->
                                 <th>Category Name</th>
@@ -43,10 +43,10 @@ Halaman Data Kategori Barang
                         </thead>
 
                         <tbody>
-                            <!-- @php $no=1; @endphp -->
+                            @php $no=1; @endphp
                             @foreach($category as $cat)
                             <tr>
-                                <!-- <td>{{$no++}}</td> -->
+                                <td>{{$no++}}</td>
                                 <td>{{$cat['category_code']}}</td>
                                 <td>{{$cat['category_name']}}</td>
                                 <td>{{$cat['category_desc']}}</td>
