@@ -69,6 +69,10 @@ Halaman Edit Data User
                                 <option>Customer</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Foto Profil</label>
+                            <input type="file" class="form-control" placeholder="Company name" name="image" required="required">
+                        </div>
                         <!-- <div class=" form-group">
                             <label>Deskripsi Kategori</label>
                             <div class="input-group">

@@ -38,6 +38,7 @@ Halaman Data User
                                 <!-- <th class="nosort">Avatar</th> -->
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Aksi</th>
                                 <!-- <th>Kategori</th>
                                 <th>Harga</th>
@@ -53,6 +54,7 @@ Halaman Data User
                                 <td>{{$no++}}</td>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->role}}</td>
                                 <td align="center">
                                     <a><button type="button" class="btn btn-info" style="width:35px;" data-toggle="modal" data-target="#productModal"><i class="ik ik-eye"></i></button></a>
                                     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">

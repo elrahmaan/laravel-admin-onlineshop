@@ -76,6 +76,10 @@ Halaman Pembuatan Data User
                             <option>Customer</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Foto Profil</label>
+                        <input type="file" class="form-control" placeholder="Company name" name="image" required="required">
+                    </div>
                     <!-- <div class="form-group">
                         <label>Deskripsi Kategori</label>
                         <textarea name="category_desc" class="form-control html-editor" rows="5"></textarea>

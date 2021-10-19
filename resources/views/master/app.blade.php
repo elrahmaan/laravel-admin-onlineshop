@@ -76,7 +76,11 @@
                         <!-- <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal"><i class="ik ik-grid"></i></button> -->
                         <a class="text">{{ Auth::user()->name }}</a>
                         <div class="dropdown">
+                            @if(Auth::user()->image != null)
+                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{asset('storage/'.Auth::user()->image)}}" alt=""></a>
+                            @else
                             <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="/style/img/user.jpg" alt=""></a>
+                            @endif
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="profile.html"><i class="ik ik-user dropdown-icon"></i> Profile</a>
                                 <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>

@@ -39,11 +39,16 @@ class UserController extends Controller
     {
         // User::create($request->all());
         // return redirect()->route('user.index');
+        if ($request->file('image')) {
+            $image = $request->file('image')->store('/images', 'public');
+        }
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'image' => $image,
             // 'role' => $request->role,
             // 'image' => $image,
             // 'address' => $request->address,
@@ -88,11 +93,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
         $users->password = Hash::make($request->password);
         $users->role = $request->role;
+        if ($users->image && file_exists(storage_path('app/public/' . $users->image))) {
+            \Storage::delete('public' . $users->image);
+        }
+        $image = $request->file('image')->store('images', 'public');
+        $users->image = $image;
         // $users->role = $request->role;
         // if ($users->image && file_exists(storage_path('app/public/' . $users->image))) {
         //     \Storage::delete('public' . $users->image);
