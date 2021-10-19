@@ -81,9 +81,9 @@ Halaman Edit Data Barang
                     </div>
                     <div class="form-group">
                         <label>Gambar barang</label>
-                        <input type="hidden" name="oldImage" value="{{substr($product['product_image'],30,200)}}">
+                        <input type="hidden" name="oldImage" value="{{$product['product_image']}}">
                         @if($product['product_image'])
-                        <img src="{{$product['product_image']}}"
+                        <img src="{{asset('storage/' . $product['product_image'])}}"
                             class="img-preview img-fluid mb-3 col-sm-3 d-block">
                         @else
                         <img class="img-preview img-fluid mb-3 col-sm-3">

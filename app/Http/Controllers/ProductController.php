@@ -72,13 +72,12 @@ class ProductController extends Controller
         // dd($request->product_category);
         if($request->file('product_image')){
             $validatedData['product_image'] = $request->file('product_image')->store('product-images');
-            $imageURL = 'http://localhost:8000/storage/' . $validatedData['product_image'];
         }
         $product = self::$db->collection('products');
         $product->add([
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
-            'product_image' => $imageURL,
+            'product_image' => $validatedData['product_image'],
             'product_price' => $request->product_price,
             'product_desc' => $request->product_desc,
             'product_stock' => $request->product_stock,
@@ -141,13 +140,12 @@ class ProductController extends Controller
                 Storage::delete($request->oldImage);
             }
             $validatedData['product_image'] = $request->file('product_image')->store('product-images');
-            $imageURL = 'http://localhost:8000/storage/' . $validatedData['product_image'];
         }
         $product = self::$db->collection('products')->document($id);
         $product->set([
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
-            'product_image' => $imageURL,
+            'product_image' => $validatedData['product_image'],
             'product_price' => $request->product_price,
             'product_desc' => $request->product_desc,
             'product_stock' => $request->product_stock,
@@ -177,7 +175,7 @@ class ProductController extends Controller
         }
         
         if($imageProduct){
-            Storage::delete(substr($imageProduct, 30, 200));
+            Storage::delete($imageProduct);
         }        
         $product->delete();
         // Product::destroy($product->id);

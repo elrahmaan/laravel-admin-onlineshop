@@ -64,14 +64,13 @@ class CategoryController extends Controller
         ]);
         if($request->file('category_icon')){
             $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
-            $imageURL = 'http://localhost:8000/storage/' . $validatedData['category_icon'];
         }
 
         $category = self::$db->collection('categories');
         $category->add([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
-            'category_icon' => $imageURL,
+            'category_icon' => $validatedData['category_icon'],
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -127,14 +126,13 @@ class CategoryController extends Controller
                 Storage::delete($request->oldImage);
             }
             $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
-            $imageURL = 'http://localhost:8000/storage/' . $validatedData['category_icon'];
         }
 
         $category = self::$db->collection('categories')->document($id);
         $category->set([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
-            'category_icon' => $imageURL,
+            'category_icon' => $validatedData['category_icon'],
             'category_desc' => $request->category_desc
         ]);
         return redirect()->route('category.index');
@@ -159,7 +157,7 @@ class CategoryController extends Controller
             }
         }
         if($imageCategory){
-            Storage::delete(substr($imageCategory, 30, 200));
+            Storage::delete($imageCategory);
         }   
 
         $category->delete();
