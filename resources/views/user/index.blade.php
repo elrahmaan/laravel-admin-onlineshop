@@ -35,16 +35,11 @@ Halaman Data User
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <!-- <th class="nosort">Avatar</th> -->
-                                <th>Avatar</th>
+                                <th class="nosort">Avatar</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
-                                <!-- <th>Kategori</th>
-                                <th>Harga</th>
-                                <th>Stok</th>
-                                <th>Aksi</th> -->
                             </tr>
                         </thead>
 
@@ -77,7 +72,7 @@ Halaman Data User
                                         </div>
                                     </div>
                                     <a href="/user/{{$user->id}}/edit"><button type="button" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
-                                    <a href="/user/{{$user->id}}/delete"><button type="button" class="btn btn-danger" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
+                                    <a href="#"><button type="button" class="btn btn-danger delete" data-id="{{$user->id}}" data-name="{{$user->name}}" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -100,6 +95,41 @@ Halaman Data User
         })
     })
 </script> -->
+<script>
+    $('.delete').click(function() {
+        var userid = $(this).attr('data-id');
+        var username = $(this).attr('data-name');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Want to delete username " + username + " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'User has been removed'
+                })
+                window.location = "/user/" + userid + "/delete"
+            }
+        })
+    })
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -115,12 +145,20 @@ Halaman Data User
             },
             ajax: "{{ route('user.index') }}",
             columns: [{
+                    data: 'image',
+                    name: 'image'
+                },
+                {
                     data: 'name',
                     name: 'name'
                 },
                 {
                     data: 'email',
                     name: 'email'
+                },
+                {
+                    data: 'role',
+                    name: 'role'
                 },
                 {
                     data: 'action',
