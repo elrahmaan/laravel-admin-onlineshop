@@ -129,6 +129,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect('/user')->with('danger', 'Data telah dihapus');;
+        return redirect('/user')->with('success', 'Data telah dihapus');;
     }
 }
