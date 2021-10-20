@@ -31,7 +31,7 @@ Halaman Data Barang
                 <div class="card-body">
                     <table id="multi-colum-dt"
                         class="table table-striped table-bordered nowrap dataTables_wrapper dt-bootstrap4 data-table">
-
+                        
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -57,24 +57,28 @@ Halaman Data Barang
                                 <td>IDR {{$product['product_price']}}</td>
                                 <td>{{$product['product_stock']}}</td>
                                 <td align="center">
-                                    <a><button type="button" class="btn btn-info" style="width:35px;"
-                                            data-toggle="modal" data-target="#productModal"><i
-                                                class="ik ik-eye"></i></button></a>
+                                    <a href="#" data-productName="{{$product['product_name']}}" id="showProduct" class="btn btn-info" style="width:35px;"
+                                            data-toggle="modal" data-target="#productModal" data-code="{{$product['product_code']}}" data-name="{{$product['product_name']}}" data-category="{{$category['category_name']}}" data-image="{{$product['product_image']}}" data-price="IDR {{$product['product_price']}}" data-desc="{{$product['product_desc']}}" data-stock="{{$product['product_stock']}}"><i class="ik ik-eye"></i></a>
+                                            <!-- modal -->
                                     <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLongLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLongLabel">Data barang</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close"><span
                                                             aria-hidden="true">&times;</span></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>{{$product['product_code']}}</p>
-                                                    <p>{{$product['product_name']}}</p>
-                                                    <p>{{$category['category_name']}}</p>
-                                                    <p>{{$product['product_desc']}}</p>
+                                                    <!-- modal content -->
+                                                    <p id="productCode"></p>
+                                                    <p id="productName"></p>
+                                                    <img src="" id="productImage">
+                                                    <p id="productCategory"></p>
+                                                    <p id="productPrice"></p>
+                                                    <p id="productDesc"></p>
+                                                    <p id="productStock"></p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary"
@@ -102,63 +106,29 @@ Halaman Data Barang
         </div>
     </div>
 </div>
+@section('script')
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).on('click', '#showProduct', function (event) {
+        let product_code = $(this).attr('data-code');
+        let product_name = $(this).attr('data-name');
+        let product_image = $(this).attr('data-image');
+        let product_category = $(this).attr('data-category');
+        let product_price = $(this).attr('data-price');
+        let product_desc = $(this).attr('data-desc');
+        let product_stock = $(this).attr('data-stock');
 
-        var table = $('#dataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            searching: true,
-            "initComplete": function (settings, json) {
-                $("#dataTable").wrap(
-                    "<div class='scroll' style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'></div>"
-                );
-            },
-            ajax: "{{ route('product.index') }}",
-            columns: [{
-                    data: 'product_code',
-                    name: 'product_code'
-                },
-                {
-                    data: 'product_name',
-                    name: 'product_name'
-                },
-                {
-                    data: 'category_name',
-                    name: 'categories.category_name'
-                },
-                {
-                    data: 'product_price',
-                    name: 'product_price'
-                },
-                {
-                    data: 'product_stock',
-                    name: 'product_stock'
-                },
-                {
-                    data: 'product_desc',
-                    name: 'product_desc'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
-        table.columns().eq(0).each(function (colIdx) {
-            $('input', table.column(colIdx).footer()).on('keyup change', function () {
-                console.log(colIdx + '-' + this.value);
-                table
-                    .column(colIdx)
-                    .search(this.value)
-                    .draw();
-            });
-        });
+        // set nilai
+        document.getElementById('productCode').innerHTML = product_code;
+        document.getElementById('productName').innerHTML = product_name;
+        $('#productImage').attr('src', 'http://127.0.0.1:8000/' + product_image);
+        document.getElementById('productCategory').innerHTML = product_category;
+        document.getElementById('productPrice').innerHTML = product_price;
+        document.getElementById('productDesc').innerHTML = product_desc;
+        document.getElementById('productStock').innerHTML = product_stock;
     });
 
 </script>
+@endsection
 
 @endsection
 @section('fixedButton')

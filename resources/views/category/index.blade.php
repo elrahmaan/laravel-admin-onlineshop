@@ -51,18 +51,20 @@ Halaman Data Kategori Barang
                                 <td>{{$cat['category_name']}}</td>
                                 <td>{{$cat['category_desc']}}</td>
                                 <td align="center">
-                                    <a><button type="button" class="btn btn-info" style="width:35px;" data-toggle="modal" data-target="#productModal"><i class="ik ik-eye"></i></button></a>
-                                    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
+                                    <a href="#" class="btn btn-info" style="width:35px;" data-toggle="modal" id="showCategory" data-target="#categoryModal" data-code="{{$cat['category_code']}}" data-name="{{$cat['category_name']}}" data-image="{{$cat['category_icon']}}" data-desc="{{$cat['category_desc']}}"><i class="ik ik-eye"></i></a>
+                                    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongLabel">Modal title</h5>
+                                                    <h5 class="modal-title" id="exampleModalLongLabel">Data Kategori</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>{{$cat['category_code']}}</p>
-                                                    <p>{{$cat['category_name']}}</p>
-                                                    <p>{{$cat['category_desc']}}</p>
+                                                    <!-- modal content -->
+                                                    <p id="categoryCode"></p>
+                                                    <p id="categoryName"></p>
+                                                    <img src="" id="categoryIcon">
+                                                    <p id="categoryClass"></p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
@@ -82,51 +84,24 @@ Halaman Data Kategori Barang
         </div>
     </div>
 </div>
+
+@endsection
+@section('script')
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).on('click', '#showCategory', function (event) {
+        let category_code = $(this).attr('data-code');
+        let category_name = $(this).attr('data-name');
+        let category_icon = $(this).attr('data-icon');
+        let category_desc = $(this).attr('data-desc');
 
-        var table = $('#dataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            searching: true,
-            "initComplete": function(settings, json) {
-                $("#dataTable").wrap(
-                    "<div class='scroll' style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'></div>"
-                );
-            },
-            ajax: "{{ route('category.index') }}",
-            columns: [{
-                    data: 'category_code',
-                    name: 'category_code'
-                },
-                {
-                    data: 'category_name',
-                    name: 'category_name'
-                },
-                {
-                    data: 'category_desc',
-                    name: 'category_desc'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
-        table.columns().eq(0).each(function(colIdx) {
-            $('input', table.column(colIdx).footer()).on('keyup change', function() {
-                console.log(colIdx + '-' + this.value);
-                table
-                    .column(colIdx)
-                    .search(this.value)
-                    .draw();
-            });
-        });
+        // set nilai
+        document.getElementById('categoryCode').innerHTML = category_code;
+        document.getElementById('categoryName').innerHTML = category_name;
+        $('#categoryIcon').attr('src', 'http://127.0.0.1:8000/' + category_icon);
+        document.getElementById('categoryDesc').innerHTML = category_desc;
     });
-</script>
 
+</script>
 @endsection
 @section('fixedButton')
 <a class="fixedButtonRefresh">
