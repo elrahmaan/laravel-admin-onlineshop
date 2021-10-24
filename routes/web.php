@@ -47,7 +47,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/order', [OrderController::class, 'index'])->name('order');
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
-    Route::get('/order/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::get('/order/{id}/show', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/order/{id}/update', [OrderController::class, 'update'])->name('order.update');
 
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
@@ -58,5 +59,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('category', CategoryController::class)->except(['show']);
     Route::resource('user', UserController::class)->except(['show']);
     Route::resource('product', ProductController::class)->except(['show']);
-    Route::resource('order', OrderController::class)->only(['index', 'create', 'edit']);
+    Route::resource('order', OrderController::class)->except(['delete']);
 });

@@ -3,9 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Google\Cloud\Firestore\FirestoreClient;
 
 class OrderController extends Controller
 {
+    protected static $db;
+
+    protected static function firestoreDatabaseInstance(){
+        $db = new FirestoreClient([
+        'projectId'=> 'online-shop-ce498'
+        ]);
+
+        return $db;
+    }
+    public function __construct(){
+        static::$db = self::firestoreDatabaseInstance();
+    
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +27,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('order.index');
+        $orders = self::$db->collection('orders')->orderBy('userEmail')->documents();
+        // $carts = self::$db->collection->collection("carts")->document($orders->id())->collection($orders['collectionRef']);
+        $items = self::$db->collection("item-orders")->documents();
+        // foreach($carts as $cart){
+        //     $cart = $carts->document($cart->id())->collection($cart['collectionRef']);
+        // }
+        return view('order.index', compact('orders', 'items'));
     }
 
     /**
@@ -45,7 +65,17 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = self::$db->collection('orders')->document($id)->snapshot();
+        $orders = self::$db->collection('orders')->documents();
+
+        foreach($orders as $ord){
+            if($ord->id() == $id){
+                $itemOrder = $ord['collectionRef'];
+                $userId = $ord['userId'];
+            }
+        }
+        $itemsOrder = self::$db->collection('carts')->document($userId)->collection($itemOrder)->documents();
+        return view('order.order_show', compact('order', 'itemsOrder'));
     }
 
     /**
@@ -56,7 +86,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -68,7 +98,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $order = self::$db->collection('orders')->document($id);
+        $order->update([
+            ['path' => 'status', 'value' => $request->status]
+        ]);
+
+        return redirect()->route('order.index')->with('success', 'Status transaksi berhasil diubah');
+        
     }
 
     /**
