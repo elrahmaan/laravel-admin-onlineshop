@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -57,7 +58,8 @@ class UserController extends Controller
             // 'pincode' => $request->pincode,
             // 'mobile' => $request->mobile
         ]);
-        return redirect('/user')->with('success', 'Data berhasil ditambahkan');
+        Alert::alert()->success('Sukses', 'User berhasil ditambahkan');
+        return redirect('/user');
     }
 
     /**
@@ -116,7 +118,8 @@ class UserController extends Controller
         // $users->pincode = $request->pincode;
         // $users->mobile = $request->mobile;
         $users->save();
-        return redirect('/user')->with('success', 'Data berhasil diubah');
+        Alert::toast('Update Success', 'success');
+        return redirect('/user');
     }
 
     /**
@@ -129,6 +132,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect('/user')->with('success', 'Data telah dihapus');;
+        Alert::toast('Delete Success', 'success');
+        return redirect('/user');
     }
 }

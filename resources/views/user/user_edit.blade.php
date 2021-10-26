@@ -30,7 +30,7 @@ Halaman Edit Data User
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.update', $id)}}" method="POST" style="padding-bottom: 50px;">
+                <form id="edit-user-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.update', $id)}}" method="POST" style="padding-bottom: 50px;">
                     @csrf
                     @method('PUT')
                     <input type="hidden" class="form-control form-control-capitalize " placeholder="Id" name="id" value="{{$user->id}}" readonly>
@@ -93,7 +93,7 @@ Halaman Edit Data User
                                 </button>
                             </a>
                             <a class="fixedButtonAdd" href="">
-                                <button data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
+                                <button onclick="return false" id="edit-user" data-name="{{$user->name}}" data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
                                     <i class="ik ik-save"></i>
                                 </button>
                             </a>
@@ -106,4 +106,41 @@ Halaman Edit Data User
     </div>
     <!-- /.col -->
 </div>
+<script>
+    $('#edit-user').on('click', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        var name = $(this).attr('data-name');
+        Swal.fire({
+            title: 'Apa anda yakin?',
+            text: "ingin edit data " + name,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085D6',
+            cancelButtonColor: '#AAAAAA',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 10000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Hold on, update in progress'
+                })
+                $('#edit-user-form').submit();
+            }
+        })
+    });
+</script>
+
 @endsection

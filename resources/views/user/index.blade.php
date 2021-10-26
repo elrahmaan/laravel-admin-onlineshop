@@ -105,7 +105,7 @@ Halaman Data User
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            cancelButtonColor: '#AAAAAA',
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -122,8 +122,8 @@ Halaman Data User
                 })
 
                 Toast.fire({
-                    icon: 'success',
-                    title: 'User has been removed'
+                    icon: 'info',
+                    title: 'Hold on, delete in progress'
                 })
                 window.location = "/user/" + userid + "/delete"
             }

@@ -30,7 +30,7 @@ Halaman Pembuatan Data User
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.store')}}" method="POST" style="padding-bottom: 50px;">
+                <form id="add-user-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.store')}}" method="POST" style="padding-bottom: 50px;">
                     @csrf
                     <!-- <div class="form-group">
                         <label>Kode Kategori</label>
@@ -91,7 +91,7 @@ Halaman Pembuatan Data User
                             </button>
                         </a>
                         <a class="fixedButtonAdd" href="">
-                            <button data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
+                            <button onclick="return false" id="add-user" data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('user.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
                                 <i class="ik ik-save"></i>
                             </button>
                         </a>
@@ -101,4 +101,29 @@ Halaman Pembuatan Data User
         </div>
     </div>
 </div>
+<script>
+    $('#add-user').on('click', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        var name = $(this).attr('data-name');
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 10000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'info',
+            title: 'Hold on, create in progress'
+        })
+        $('#add-user-form').submit();
+    });
+</script>
+
 @endsection
