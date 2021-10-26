@@ -30,8 +30,8 @@ Halaman Pembuatan Data Barang
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('product.store')}}" method="POST" style="padding-bottom: 50px;">
-                @csrf
+                <form id="add-pro-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('product.store')}}" method="POST" style="padding-bottom: 50px;">
+                    @csrf
                     <div class="form-group">
                         <label>Kode Barang</label>
                         <div class="input-group mb-4">
@@ -57,8 +57,8 @@ Halaman Pembuatan Data Barang
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
                             <select name="product_category" class="select2 form-control" id="categoryInput">
-                                @foreach($categories as $category) 
-                                    <option value="{{$category['category_name']}}">{{$category['category_name']}}</option>
+                                @foreach($categories as $category)
+                                <option value="{{$category['category_name']}}">{{$category['category_name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -95,20 +95,18 @@ Halaman Pembuatan Data Barang
                         <label>Deskripsi Barang</label>
                         <textarea name="product_desc" class="form-control html-editor" rows="3"></textarea>
                     </div>
-                    
+
                     <div class="footer-buttons">
-                    <a class="fixedButtonRefresh" href="">
-                        <button data-toggle="tooltip" data-placement="top" title="" type="button"
-                            class="btn btn-icon btn-secondary " data-original-title="Back">
-                            <i class="ik ik-arrow-left"></i>
-                        </button>
-                    </a>
-                    <a class="fixedButtonAdd" href="">
-                        <button data-toggle="tooltip" type="submit" data-placement="top" title="" href=""
-                            class="btn btn-icon btn-info" data-original-title="Tambah">
-                            <i class="ik ik-save"></i>
-                        </button>
-                    </a>
+                        <a class="fixedButtonRefresh" href="">
+                            <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Back">
+                                <i class="ik ik-arrow-left"></i>
+                            </button>
+                        </a>
+                        <a class="fixedButtonAdd" href="">
+                            <button onclick="return false" id="add-pro" data-toggle="tooltip" type="submit" data-placement="top" title="" href="" class="btn btn-icon btn-info" data-original-title="Tambah">
+                                <i class="ik ik-save"></i>
+                            </button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -117,7 +115,7 @@ Halaman Pembuatan Data Barang
 </div>
 
 <script>
-    function previewImage(){
+    function previewImage() {
         const image = document.querySelector('#image');
         const imgPreview = document.querySelector('.img-preview');
 
@@ -126,9 +124,34 @@ Halaman Pembuatan Data Barang
         const ofReader = new FileReader();
         ofReader.readAsDataURL(image.files[0]);
 
-        ofReader.onload = function(oFREvent){
+        ofReader.onload = function(oFREvent) {
             imgPreview.src = oFREvent.target.result;
         }
     }
 </script>
+<script>
+    $('#add-pro').on('click', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        var name = $(this).attr('data-name');
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 10000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'info',
+            title: 'Hold on, create in progress'
+        })
+        $('#add-pro-form').submit();
+    });
+</script>
+
 @endsection
