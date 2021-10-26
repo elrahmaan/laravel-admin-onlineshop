@@ -6,21 +6,23 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Google\Cloud\Firestore\FirestoreClient;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
     protected static $db;
 
-    protected static function firestoreDatabaseInstance(){
+    protected static function firestoreDatabaseInstance()
+    {
         $db = new FirestoreClient([
-        'projectId'=> 'online-shop-ce498'
+            'projectId' => 'online-shop-ce498'
         ]);
 
         return $db;
     }
-    public function __construct(){
+    public function __construct()
+    {
         static::$db = self::firestoreDatabaseInstance();
-    
     }
 
     /**
@@ -33,7 +35,7 @@ class CategoryController extends Controller
         // $category = Category::all();
         $docRef = self::$db->collection('categories')->orderBy('category_code');
         $snapshot = $docRef->documents();
-        $category = $snapshot;   
+        $category = $snapshot;
         return view('category.index', compact('category'));
     }
 
@@ -59,10 +61,10 @@ class CategoryController extends Controller
         $validatedData = $request->validate([
             'category_code' => 'required',
             'category_name' => 'required',
-            'category_icon' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'category_icon' => 'required|mimes:jpg,jpeg,png|max:5120',
             'category_desc' => 'required'
         ]);
-        if($request->file('category_icon')){
+        if ($request->file('category_icon')) {
             // $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
             $category_file = $validatedData['category_icon'];
             $icon_name =  time() . "." . $category_file->getClientOriginalExtension();
@@ -78,6 +80,7 @@ class CategoryController extends Controller
             'category_icon' => $category_icon,
             'category_desc' => $request->category_desc
         ]);
+        Alert::alert()->success('Sukses', 'Kategori berhasil ditambahkan');
         return redirect()->route('category.index');
     }
 
@@ -117,17 +120,17 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         // $category = Category::find($id);
-        // $category->update($request->all());
+        // $category->update($request->all());        
         $rules = [
             'category_code' => 'required',
             'category_name' => 'required',
-            'category_icon' =>'required|mimes:jpg,jpeg,png|max:5120',
+            'category_icon' => 'required|mimes:jpg,jpeg,png|max:5120',
             'category_desc' => 'required'
         ];
         $validatedData = $request->validate($rules);
         $category_file = $validatedData['category_icon'];
-        if($request->file('category_icon')){
-            if($request->oldImage){
+        if ($request->file('category_icon')) {
+            if ($request->oldImage) {
                 File::delete(public_path($request->oldImage));
             }
             // $validatedData['category_icon'] = $request->file('category_icon')->store('category-icons');
@@ -145,6 +148,8 @@ class CategoryController extends Controller
             'category_icon' => $category_icon,
             'category_desc' => $request->category_desc
         ]);
+        // Alert::question('Benar Ingin Edit data?', 'data tidak dapat dikembalikan')->persistent('Close');
+        Alert::toast('Update Success', 'success');
         return redirect()->route('category.index');
     }
 
@@ -161,16 +166,16 @@ class CategoryController extends Controller
         $category = self::$db->collection('categories')->document($id);
         $categories = self::$db->collection('categories')->documents();
 
-        foreach($categories as $ctg){
-            if($ctg->id() == $id){
+        foreach ($categories as $ctg) {
+            if ($ctg->id() == $id) {
                 $imageCategory = $ctg['category_icon'];
             }
         }
-        if($imageCategory){
+        if ($imageCategory) {
             File::delete(public_path($imageCategory));
-        }   
-
+        }
         $category->delete();
+        Alert::toast('Delete Success', 'success');
         return redirect()->route('category.index');
     }
 }

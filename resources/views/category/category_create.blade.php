@@ -30,7 +30,7 @@ Halaman Pembuatan Data Kategori Barang
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
-                <form class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('category.store')}}" method="POST" style="padding-bottom: 50px;">
+                <form id="add-cat-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('category.store')}}" method="POST" style="padding-bottom: 50px;">
                     @csrf
                     <div class="form-group">
                         <label>Kode Kategori</label>
@@ -79,18 +79,16 @@ Halaman Pembuatan Data Kategori Barang
                         </div>
                     </div> -->
                     <div class="footer-buttons">
-                    <a class="fixedButtonRefresh" href="">
-                        <button data-toggle="tooltip" data-placement="top" title="" type="button"
-                            class="btn btn-icon btn-secondary " data-original-title="Kembali">
-                            <i class="ik ik-arrow-left"></i>
-                        </button>
-                    </a>
-                    <a class="fixedButtonAdd" href="">
-                        <button data-toggle="tooltip" type="submit" data-placement="top" title="" href="{{route('category.index')}}"
-                            class="btn btn-icon btn-info" data-original-title="Tambah">
-                            <i class="ik ik-save"></i>
-                        </button>
-                    </a>
+                        <a class="fixedButtonRefresh" href="">
+                            <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Kembali">
+                                <i class="ik ik-arrow-left"></i>
+                            </button>
+                        </a>
+                        <a class="fixedButtonAdd" href="">
+                            <button onclick="return false" data-toggle="tooltip" id="add-cat" type="submit" data-placement="top" title="" href="{{route('category.index')}}" class="btn btn-icon btn-info" data-original-title="Tambah">
+                                <i class="ik ik-save"></i>
+                            </button>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -98,7 +96,7 @@ Halaman Pembuatan Data Kategori Barang
     </div>
 </div>
 <script>
-    function previewImage(){
+    function previewImage() {
         const image = document.querySelector('#image');
         const imgPreview = document.querySelector('.img-preview');
 
@@ -107,9 +105,34 @@ Halaman Pembuatan Data Kategori Barang
         const ofReader = new FileReader();
         ofReader.readAsDataURL(image.files[0]);
 
-        ofReader.onload = function(oFREvent){
+        ofReader.onload = function(oFREvent) {
             imgPreview.src = oFREvent.target.result;
         }
     }
 </script>
+<script>
+    $('#add-cat').on('click', function(e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        var name = $(this).attr('data-name');
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 10000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'info',
+            title: 'Hold on, create in progress'
+        })
+        $('#add-cat-form').submit();
+    });
+</script>
+
 @endsection

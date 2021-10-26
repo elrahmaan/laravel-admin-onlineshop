@@ -53,7 +53,7 @@ Halaman Data Kategori Barang
                                 <td align="center">
                                     <a href="#" class="btn btn-info" style="width:35px;" data-toggle="modal" id="showCategory" data-target="#categoryModal{{$cat->id()}}"><i class="ik ik-eye"></i></a>
                                     <a href="/category/{{$cat->id()}}/edit"><button type="button" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
-                                    <a href="/category/{{$cat->id()}}/delete"><button type="button" class="btn btn-danger" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
+                                    <a href="#"><button type="button" class="btn btn-danger deleteCat" data-id="{{$cat->id()}}" data-name="{{$cat['category_name']}}" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
                                 </td>
                             </tr>
                             <div class="modal fade" id="categoryModal{{$cat->id()}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
@@ -67,13 +67,11 @@ Halaman Data Kategori Barang
                                             <!-- modal content -->
                                             <div class="form-group">
                                                 <label>Kode Kategori</label>
-                                                <input type="text" class="form-control form-control text-uppercase " placeholder="Kode Kategori"
-                                                        value="{{$cat['category_code']}}" readonly>
+                                                <input type="text" class="form-control form-control text-uppercase " placeholder="Kode Kategori" value="{{$cat['category_code']}}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>Nama Kategori</label>
-                                                <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori"
-                                                        value="{{$cat['category_name']}}" readonly>
+                                                <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" value="{{$cat['category_name']}}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label>Icon Kategori</label>
@@ -99,6 +97,43 @@ Halaman Data Kategori Barang
     </div>
 </div>
 
+<!-- Sweet Alert Delete -->
+<script>
+    $('.deleteCat').click(function() {
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Want to delete category " + name + " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#AAAAAA',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 10000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'info',
+                    title: 'Hold on, delete in progress'
+                })
+                window.location = "/category/" + id + "/delete"
+            }
+        })
+    })
+</script>
+<!-- End Sweet Alert Delete -->
 @endsection
 @section('script')
 @endsection
