@@ -51,7 +51,7 @@ Halaman Edit Data Barang
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
                             <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori"
-                                value="{{$product['product_name']}}" name="product_name">
+                                value="{{$product['product_name']}}" name="product_name" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,7 +76,7 @@ Halaman Edit Data Barang
                                 <label class="input-group-text">IDR</label>
                             </span>
                             <input type="number" class="form-control form-control-capitalize " placeholder="ex: 100000"
-                                value="{{$product['product_price']}}" name="product_price">
+                                value="{{$product['product_price']}}" name="product_price" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,7 +104,7 @@ Halaman Edit Data Barang
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
                             <input type="number" class="form-control form-control-capitalize " placeholder="ex: 15"
-                                value="{{$product['product_stock']}}" name="product_stock">
+                                value="{{$product['product_stock']}}" name="product_stock" required>
                         </div>
                     </div>
                     <div class="form-group">

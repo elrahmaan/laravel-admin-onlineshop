@@ -65,10 +65,24 @@ Halaman Data Kategori Barang
                                         </div>
                                         <div class="modal-body">
                                             <!-- modal content -->
-                                            <p>{{$cat['category_code']}}</p>
-                                            <p>{{$cat['category_name']}}</p>
-                                            <img src="{{asset($cat['category_icon'])}}">
-                                            <p>{{$cat['category_desc']}}</p>
+                                            <div class="form-group">
+                                                <label>Kode Kategori</label>
+                                                <input type="text" class="form-control form-control text-uppercase " placeholder="Kode Kategori"
+                                                        value="{{$cat['category_code']}}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nama Kategori</label>
+                                                <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori"
+                                                        value="{{$cat['category_name']}}" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Icon Kategori</label>
+                                                <img src="{{asset($cat['category_icon'])}}" class="img-preview img-fluid mb-3 col-sm-3 d-block">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Deskripsi Kategori</label>
+                                                <textarea class="form-control html-editor" rows="5" readonly>{{$cat['category_desc']}}</textarea>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

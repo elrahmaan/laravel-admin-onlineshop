@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>ThemeKit - Admin Template</title>
+    <title>TokoKita - Admin</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -111,7 +111,7 @@
                         <div class="logo-img">
                             <img src="/style/src/img/brand-white.svg" class="header-brand-img" alt="lavalite">
                         </div>
-                        <span class="text">ThemeKit</span>
+                        <span class="text">TokoKita</span>
                     </a>
                     <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
                     <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>

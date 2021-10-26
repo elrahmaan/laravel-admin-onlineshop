@@ -38,7 +38,7 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Barang" value="" name="product_code">
+                            <input type="text" class="form-control form-control-uppercase " placeholder="Kode Barang" value="" name="product_code">
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +47,7 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Nama Barang" value="" name="product_name">
+                            <input type="text" class="form-control form-contro-capitalize" placeholder="Nama Barang" value="" name="product_name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -69,7 +69,7 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text">IDR</label>
                             </span>
-                            <input type="number" class="form-control form-control-capitalize " placeholder="ex: 100000" value="" name="product_price">
+                            <input type="number" class="form-control form-control-uppercase" placeholder="ex: 100000" value="" name="product_price">
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,7 +79,7 @@ Halaman Pembuatan Data Barang
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-upload"></i></label>
                             </span>
-                            <input type="file" class="form-control form-control-capitalize" id="image" name="product_image" style="padding:4px;" onchange="previewImage()">
+                            <input type="file" class="form-control" id="image" name="product_image" style="padding:4px;" onchange="previewImage()">
                         </div>
                     </div>
                     <div class="form-group">

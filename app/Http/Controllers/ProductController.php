@@ -75,14 +75,19 @@ class ProductController extends Controller
             $product_file->move($path, $image_name);
             $product_image = '/uploads/product-images/' . $image_name;
         }
-        $product = self::$db->collection('products');
-        $product->add([
+        // $product = self::$db->collection('products');
+
+        $docId = time();
+        $product = self::$db->collection('products')->document($docId);
+        
+        $product->set([
+            'product_id' => (string)$docId,
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
             'product_image' => $product_image,
-            'product_price' => $request->product_price,
+            'product_price' => (int)$request->product_price,
             'product_desc' => $request->product_desc,
-            'product_stock' => $request->product_stock,
+            'product_stock' => (int)$request->product_stock,
             'product_category' => $request->product_category
         ]);
         // Product::create($validatedData);
@@ -146,12 +151,13 @@ class ProductController extends Controller
         }
         $product = self::$db->collection('products')->document($id);
         $product->set([
+            'product_id' => $id,
             'product_code' => $request->product_code,
             'product_name' => $request->product_name,
             'product_image' => $product_image,
-            'product_price' => $request->product_price,
+            'product_price' => (int)$request->product_price,
             'product_desc' => $request->product_desc,
-            'product_stock' => $request->product_stock,
+            'product_stock' => (int)$request->product_stock,
             'product_category' => $request->product_category
         ]);
         // Product::where('id', $id)->update($validatedData);
