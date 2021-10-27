@@ -5,10 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use RealRashid\SweetAlert\Facades\Alert;
+use Google\Cloud\Firestore\FirestoreClient;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+    protected static $db;
+
+    protected static function firestoreDatabaseInstance(){
+        $db = new FirestoreClient([
+        'projectId'=> 'online-shop-ce498'
+        ]);
+
+        return $db;
+    }
+    public function __construct(){
+        static::$db = self::firestoreDatabaseInstance();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +29,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('role', 'desc')->get();
         return view('user.index', compact('users'));
+    }
+
+    public function customer()
+    {
+        $users = self::$db->collection('users')->orderBy('username')->documents();
+        return view('user.customer', compact('users'));
     }
 
     /**
@@ -40,26 +59,21 @@ class UserController extends Controller
     {
         // User::create($request->all());
         // return redirect()->route('user.index');
-        if ($request->file('image')) {
-            $image = $request->file('image')->store('/images', 'public');
+        // if ($request->file('image')) {
+        //     $image = $request->file('image')->store('/images', 'public');
+        // }
+        if($request->password != $request->confirmPassword){
+            return redirect()->route('user.create')->with('failed', 'Password tidak sama');
+        }else{
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'role' => $request->role,
+            ]);
+            return redirect('/user')->with('success', 'Data berhasil ditambahkan');
         }
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-            'image' => $image,
-            // 'role' => $request->role,
-            // 'image' => $image,
-            // 'address' => $request->address,
-            // 'city' => $request->city,
-            // 'province' => $request->province,
-            // 'pincode' => $request->pincode,
-            // 'mobile' => $request->mobile
-        ]);
-        Alert::alert()->success('Sukses', 'User berhasil ditambahkan');
-        return redirect('/user');
     }
 
     /**
@@ -83,7 +97,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $id = $user->id;
-        return view('user.user_edit', compact('id', 'user'));
+        return view('user.user_editprofile', compact('id', 'user'));
     }
 
     /**
@@ -95,31 +109,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $users = User::find($id);
         $users->name = $request->name;
         $users->email = $request->email;
-        $users->password = Hash::make($request->password);
+        $users->phone = $request->phone;
         $users->role = $request->role;
-        if ($users->image && file_exists(storage_path('app/public/' . $users->image))) {
-            \Storage::delete('public' . $users->image);
+        if($request->password){
+            $users->password = Hash::make($request->password);
+            if($request->password != $request->confirmPassword){
+                // return redirect('/user' + '/' + $id + '/edit')->with('failed', 'Password tidak sama');
+                return redirect()->route('user.edit', $id)->with('failed', 'Password tidak sama');
+            }
+        }else{
+            $users->save();
         }
-        $image = $request->file('image')->store('images', 'public');
-        $users->image = $image;
-        // $users->role = $request->role;
-        // if ($users->image && file_exists(storage_path('app/public/' . $users->image))) {
-        //     \Storage::delete('public' . $users->image);
-        // }
-        // $image = $request->file('image')->store('images', 'public');
-        // $users->image = $image;
-        // $users->address = $request->address;
-        // $users->city = $request->city;
-        // $users->province = $request->province;
-        // $users->pincode = $request->pincode;
-        // $users->mobile = $request->mobile;
-        $users->save();
-        Alert::toast('Update Success', 'success');
-        return redirect('/user');
+        return redirect('/user')->with('success', 'Data berhasil diubah');
     }
 
     /**

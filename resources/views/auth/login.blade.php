@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login | ThemeKit - Admin Template</title>
+    <title>Login | TokoKita</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,9 +38,9 @@
                 <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
                     <div class="authentication-form mx-auto">
                         <div class="logo-centered">
-                            <a href="#"><img src="/style/src/img/brand.svg" alt=""></a>
+                            <a href="#"><img src="/style/src/img/brand.svg" alt=""><strong>TokoKita</strong></a>
                         </div>
-                        <h3>Sign In to Admin Panel</h3>
+                        <!-- <h3>Sign In to Admin Panel</h3> -->
                         <p>Happy to see you again!</p>
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
@@ -57,7 +57,7 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"" name=" password" placeholder="Password" required autocomplete="current-password">
                                 <i class="ik ik-lock"></i>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col text-left">
                                     <label class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} value="option1">
@@ -70,13 +70,14 @@
                                     <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
                                     @endif
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="sign-btn text-center">
                                 <button class="btn btn-theme" type="submit">Sign In</button>
                             </div>
                         </form>
                         <div class="register">
-                            <p>Don't have an account? <a href="{{ route('register') }}">Create an account</a></p>
+                            <!-- <p>Don't have an account? <a href="{{ route('register') }}">Create an account</a></p> -->
+                            <p><a>Developed by <strong>silent coder</strong></a></p>
                         </div>
                     </div>
                 </div>

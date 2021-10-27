@@ -9,38 +9,46 @@
 @endsection
 
 @section('iconHeader')
-<i class="ik ik-list bg-blue"></i>
+<i class="ik ik-user bg-blue"></i>
 @endsection
 
 @section('titleHeader')
-Edit User
+Akun
 @endsection
 
 @section('subtitleHeader')
-Halaman Edit Data User
+Edit Profil
 @endsection
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="#">User</a></li>
-<li class="breadcrumb-item active" aria-current="page">Edit User</li>
+<li class="breadcrumb-item active" aria-current="page">Edit Profil</li>
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-sm-12" style="margin-bottom:20%">
         <div class="card">
-            <div class="box-body" style="padding-bottom:50px">
+            <div class="box-body">
                 <form id="edit-user-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.update', $id)}}" method="POST" style="padding-bottom: 50px;">
+                @if(session('failed'))
+                <div class="alert alert-danger alert-dismissible mb-2 text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    {{session('failed')}}
+                </div>
+                @endif
                     @csrf
                     @method('PUT')
-                    <input type="hidden" class="form-control form-control-capitalize " placeholder="Id" name="id" value="{{$user->id}}" readonly>
+                    <input type="hidden" class="form-control form-control-capitalize " placeholder="Id" name="id" value="{{$user->id}}" required>
                     <div class="form-group">
                         <label>Nama</label>
                         <div class="input-group">
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Name" name="name" value="{{$user->name}}">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Name" name="name" value="{{$user->name}}" required>
                         </div>
                     </div>
 
@@ -50,7 +58,7 @@ Halaman Edit Data User
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="email" class="form-control form-control-capitalize " placeholder="Email" name="email" value="{{$user->email}}">
+                            <input type="email" class="form-control" placeholder="Email" name="email" value="{{$user->email}}" readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,33 +67,44 @@ Halaman Edit Data User
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password"">
+                            <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                            </span>
+                            <input type="password" class="form-control form-control-capitalize " placeholder="Konfirmasi Password" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Telepon (WA)</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                            </span>
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Telepon" name="phone" value="{{$user->phone}}" required>
+                        </div>
+                    </div>
+                    
                     <div class=" form-group">
-                            <label for="exampleFormControlSelect1">Role</label>
-                            <select class="form-control" id="exampleFormControlSelect1" name="role">
-                                <option>Administrator</option>
-                                <option>Customer</option>
-                            </select>
+                        <label for="exampleFormControlSelect1">Role</label>
+                        @if($user->role == 'Admin')
+                        <select class="form-control" id="exampleFormControlSelect1" name="role">
+                            <option>Admin</option>
+                            <option>Super Admin</option>
+                        </select>
+                        @else
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                            </span>
+                            <input type="text" class="form-control form-control-capitalize" name="role" value="{{$user->role}}" readonly>
                         </div>
-                        <div class="form-group">
-                            <label>Foto Profil</label>
-                            <input type="file" class="form-control" placeholder="Company name" name="image" required="required">
-                        </div>
-                        <!-- <div class=" form-group">
-                            <label>Deskripsi Kategori</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
-                                </span>
-                                <select name="regional_id" class="select2 form-control" id="default-select">
-
-                                    <option value=""></option>
-
-                                </select>
-                            </div>
-                        </div> -->
+                        @endif
+                    </div>
                         <div class="footer-buttons">
                             <a class="fixedButtonRefresh" href="">
                                 <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Kembali">
@@ -113,7 +132,7 @@ Halaman Edit Data User
         var name = $(this).attr('data-name');
         Swal.fire({
             title: 'Apa anda yakin?',
-            text: "ingin edit data " + name,
+            text: "ingin mengubah data profil ?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085D6',
@@ -132,15 +151,13 @@ Halaman Edit Data User
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 })
-
                 Toast.fire({
                     icon: 'info',
-                    title: 'Hold on, update in progress'
+                    title: 'Tunggu sebentar, perubahan profil sedang berlangsung'
                 })
                 $('#edit-user-form').submit();
             }
         })
     });
 </script>
-
 @endsection

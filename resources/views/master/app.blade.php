@@ -84,10 +84,7 @@
                             <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="/style/img/user.jpg" alt=""></a>
                             @endif
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="profile.html"><i class="ik ik-user dropdown-icon"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="ik ik-settings dropdown-icon"></i> Settings</a>
-                                <a class="dropdown-item" href="#"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="ik ik-mail dropdown-icon"></i> Inbox</a>
-                                <a class="dropdown-item" href="#"><i class="ik ik-navigation dropdown-icon"></i> Message</a>
+                                <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id) }}"><i class="ik ik-user dropdown-icon"></i> Edit Profile</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -127,9 +124,16 @@
                             </div>
 
                             <div class="nav-lavel">User</div>
+                            @can('super-admin')
                             <div class="nav-item {{Route::is('user.index') ? 'active' : ''}}">
-                                <a href="{{route('user.index')}}"><i class="ik ik-users"></i><span>User</span></a>
+                                <a href="{{route('user.index')}}"><i class="ik ik-users"></i><span>Admin</span></a>
                             </div>
+                            @endcan
+                            
+                            <div class="nav-item {{Route::is('user.customer') ? 'active' : ''}}">
+                                <a href="{{route('user.customer')}}"><i class="ik ik-users"></i><span>Customer</span></a>
+                            </div>
+                            
 
                             <div class="nav-lavel">Product</div>
                             <div class="nav-item {{Route::is('category.index') ? 'active' : ''}}">
@@ -183,141 +187,6 @@
             </div>
             <div class='footer-buttons'>
                 @yield('fixedButton')
-            </div>
-            <aside class="right-sidebar">
-                <div class="sidebar-chat" data-plugin="chat-sidebar">
-                    <div class="sidebar-chat-info">
-                        <h6>Chat List</h6>
-                        <form class="mr-t-10">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search for friends ...">
-                                <i class="ik ik-search"></i>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="chat-list">
-                        <div class="list-group row">
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Gene Newman">
-                                <figure class="user--online">
-                                    <img src="img/users/1.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Gene Newman</span> <span class="username">@gene_newman</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Billy Black">
-                                <figure class="user--online">
-                                    <img src="img/users/2.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Billy Black</span> <span class="username">@billyblack</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Herbert Diaz">
-                                <figure class="user--online">
-                                    <img src="img/users/3.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Herbert Diaz</span> <span class="username">@herbert</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Sylvia Harvey">
-                                <figure class="user--busy">
-                                    <img src="img/users/4.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Sylvia Harvey</span> <span class="username">@sylvia</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item active" data-chat-user="Marsha Hoffman">
-                                <figure class="user--busy">
-                                    <img src="img/users/5.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Marsha Hoffman</span> <span class="username">@m_hoffman</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Mason Grant">
-                                <figure class="user--offline">
-                                    <img src="img/users/1.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Mason Grant</span> <span class="username">@masongrant</span> </span>
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
-                                <figure class="user--offline">
-                                    <img src="img/users/2.jpg" class="rounded-circle" alt="">
-                                </figure><span><span class="name">Shelly Sullivan</span> <span class="username">@shelly</span></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            <div class="chat-panel" hidden>
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <a href="javascript:void(0);"><i class="ik ik-message-square text-success"></i></a>
-                        <span class="user-name">John Doe</span>
-                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    </div>
-                    <div class="card-body">
-                        <div class="widget-chat-activity flex-1">
-                            <div class="messages">
-                                <div class="message media reply">
-                                    <figure class="user--online">
-                                        <a href="#">
-                                            <img src="img/users/3.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>Epic Cheeseburgers come in all kind of styles.</p>
-                                    </div>
-                                </div>
-                                <div class="message media">
-                                    <figure class="user--online">
-                                        <a href="#">
-                                            <img src="img/users/1.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>Cheeseburgers make your knees weak.</p>
-                                    </div>
-                                </div>
-                                <div class="message media reply">
-                                    <figure class="user--offline">
-                                        <a href="#">
-                                            <img src="img/users/5.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>Cheeseburgers will never let you down.</p>
-                                        <p>They'll also never run around or desert you.</p>
-                                    </div>
-                                </div>
-                                <div class="message media">
-                                    <figure class="user--online">
-                                        <a href="#">
-                                            <img src="img/users/1.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>A great cheeseburger is a gastronomical event.</p>
-                                    </div>
-                                </div>
-                                <div class="message media reply">
-                                    <figure class="user--busy">
-                                        <a href="#">
-                                            <img src="img/users/5.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>
-                                    </div>
-                                </div>
-                                <div class="message media">
-                                    <figure class="user--online">
-                                        <a href="#">
-                                            <img src="img/users/1.jpg" class="rounded-circle" alt="">
-                                        </a>
-                                    </figure>
-                                    <div class="message-body media-body">
-                                        <p>If you are a vegan, we are sorry for you loss.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form action="javascript:void(0)" class="card-footer" method="post">
-                        <div class="d-flex justify-content-end">
-                            <textarea class="border-0 flex-1" rows="1" placeholder="Type your message here"></textarea>
-                            <button class="btn btn-icon" type="submit"><i class="ik ik-arrow-right text-success"></i></button>
-                        </div>
-                    </form>
-                </div>
             </div>
 
             <footer class="footer">

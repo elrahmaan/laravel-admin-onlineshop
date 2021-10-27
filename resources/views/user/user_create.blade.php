@@ -9,7 +9,7 @@
 @endsection
 
 @section('iconHeader')
-<i class="ik ik-list bg-blue"></i>
+<i class="ik ik-user bg-blue"></i>
 @endsection
 
 @section('titleHeader')
@@ -31,24 +31,22 @@ Halaman Pembuatan Data User
         <div class="card">
             <div class="box-body" style="padding-bottom:50px">
                 <form id="add-user-form" class="text-left border border-light p-5" enctype="multipart/form-data" action="{{route('user.store')}}" method="POST" style="padding-bottom: 50px;">
+                @if(session('failed'))
+                <div class="alert alert-danger alert-dismissible mb-2 text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    {{session('failed')}}
+                </div>
+                @endif
                     @csrf
-                    <!-- <div class="form-group">
-                        <label>Kode Kategori</label>
-                        <div class="input-group">
-                            <span class="input-group-prepend">
-                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
-                            </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Kode Kategori" name="category_code">
-                        </div>
-                    </div> -->
-
                     <div class="form-group">
                         <label>Nama</label>
                         <div class="input-group">
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="text" class="form-control form-control-capitalize " placeholder="Input Name" name="name">
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Nama" name="name" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -57,7 +55,7 @@ Halaman Pembuatan Data User
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="email" class="form-control form-control-capitalize " placeholder="Input email" name="email">
+                            <input type="email" class="form-control" placeholder="Email" name="email" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -66,20 +64,39 @@ Halaman Pembuatan Data User
                             <span class="input-group-prepend">
                                 <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                             </span>
-                            <input type="password" class="form-control form-control-capitalize " placeholder="Input password" name="password">
+                            <input type="password" class="form-control form-control-capitalize " placeholder="Password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                            </span>
+                            <input type="password" class="form-control form-control-capitalize " placeholder="Konfirmasi Password" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Telepon (WA)</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                            </span>
+                            <input type="text" class="form-control form-control-capitalize " placeholder="Telepon" name="phone" required>
                         </div>
                     </div>
                     <div class=" form-group">
                         <label for="exampleFormControlSelect1">Role</label>
                         <select class="form-control" id="exampleFormControlSelect1" name="role">
-                            <option>Administrator</option>
-                            <option>Customer</option>
+                            <option>Admin</option>
+                            <option>Super Admin</option>
+                            
                         </select>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Foto Profil</label>
                         <input type="file" class="form-control" placeholder="Company name" name="image" required="required">
-                    </div>
+                    </div> -->
                     <!-- <div class="form-group">
                         <label>Deskripsi Kategori</label>
                         <textarea name="category_desc" class="form-control html-editor" rows="5"></textarea>
@@ -110,20 +127,18 @@ Halaman Pembuatan Data User
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 10000,
+            timer: 12000,
             timerProgressBar: true,
             didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-
         Toast.fire({
             icon: 'info',
-            title: 'Hold on, create in progress'
+            title: 'Tunggu sebentar, penambahan data sedang berlangsung'
         })
         $('#add-user-form').submit();
     });
 </script>
-
 @endsection
