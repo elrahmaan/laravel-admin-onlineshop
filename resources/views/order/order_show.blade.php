@@ -45,7 +45,7 @@ Detail Order
                         </address>
                     </div>
                     <div class="col-sm-4 invoice-col">
-                        <b>Invoice #{{$order->id()}}</b><br>
+                        <b class="text-uppercase">Invoice #{{$order->id()}}</b><br>
                         <br>
                         <b>Status:</b>
                         @if($order['status'] == 'Unconfirmed')
@@ -85,7 +85,13 @@ Detail Order
                                     <td>{{$item['product_code']}}</td>
                                     <td>{{$item['product_name']}}</td>
                                     <td>{{$item['product_category']}}</td>
-                                    <td><img width="50" height="50" src="{{asset('$item['product_image'])}}"></td>
+                                    <td>
+                                        @if($item['product_image'])
+                                        <img width="50" height="50" src="{{asset($item['product_image'])}}">
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
                                     <td>IDR {{number_format($item['product_price'], 0, "," , ".")}}</td>
                                     <td>{{$item['product_qty']}}</td>
                                     <td>IDR {{number_format($item['product_cost'], 0, "," , ".")}}</td>
@@ -104,7 +110,7 @@ Detail Order
                         <img src="../img/credit/american-express.png" alt="American Express">
                         <img src="../img/credit/paypal2.png" alt="Paypal"> -->
                         
-                        <div class="alert alert-secondary mt-20">
+                        <div class="alert alert-secondary mt-20">                
                         @if($order['status'] == 'Unconfirmed')
                         Pesanan belum dikonfirmasi
                         @elseif($order['status'] == 'Confirmed')
@@ -115,6 +121,13 @@ Detail Order
                         Pesanan sukses. Pesanan telah sampai pada tujuan.
                         @elseif($order['status'] == 'Failed')
                         Pesanan gagal.
+                        @endif
+                        <br><br>
+                        <strong>Catatan:</strong>
+                        @if($order['note'] == '-')
+                        -
+                        @else
+                        <br><i>{{$order['note']}}</i>
                         @endif
                         </div>
                     </div>

@@ -49,7 +49,7 @@ Halaman Data Transaksi Pemesanan
                             @foreach($orders as $order)
                             <tr>
                                 <td>{{$no++}}</td>
-                                <td>#{{$order->id()}}</td>
+                                <td class="text-uppercase">#{{$order->id()}}</td>
                                 <td>{{$order['name']}}</td>
                                 <td>{{$order['userEmail']}}</td>
                                 <td>IDR {{number_format($order['totalOrder'], 0, "," , ".")}}</td>
@@ -119,42 +119,51 @@ Halaman Data Transaksi Pemesanan
                                                 <textarea class="form-control html-editor" rows="2" readonly>{{$order['address']}}</textarea>
                                             </div>
                                             <h4 class="sub-title">Status</h4>
-                                                
-                                                <div class="form-radio mb-30">    
-                                                <form style="margin:0px; padding:0px;" action="{{route('order.update', $order->id())}}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="radio radiofill radio-warning radio-inline">
-                                                        <label>
-                                                            <input type="radio" name="status" value="Unconfirmed" {{$order['status'] == 'Unconfirmed' ? 'checked' : ' '}}>
-                                                            <i class="helper"></i>Unconfirmed
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio radiofill radio-primary radio-inline">
-                                                        <label>
-                                                            <input type="radio" name="status" value="Confirmed" {{$order['status'] == 'Confirmed' ? 'checked' : ' '}}>
-                                                            <i class="helper"></i>Confirmed
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio radiofill radio-info radio-inline">
-                                                        <label>
-                                                            <input type="radio" name="status" value="Delivered" {{$order['status'] == 'Delivered' ? 'checked' : ' '}}>
-                                                            <i class="helper"></i>Delivered
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio radiofill radio-success radio-inline">
-                                                        <label>
-                                                            <input type="radio" name="status" value="Success" {{$order['status'] == 'Success' ? 'checked' : ' '}}>
-                                                            <i class="helper"></i>Success
-                                                        </label>
-                                                    </div>
-                                                    <div class="radio radiofill radio-danger radio-inline">
-                                                        <label>
-                                                            <input type="radio" name="status" value="Failed" {{$order['status'] == 'Failed' ? 'checked' : ' '}}>
-                                                            <i class="helper"></i>Failed
-                                                        </label>
-                                                    </div>
+                                            <div class="form-radio mb-30">    
+                                            <form style="margin:0px; padding:0px;" action="{{route('order.update', $order->id())}}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="radio radiofill radio-warning radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Unconfirmed" {{$order['status'] == 'Unconfirmed' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Unconfirmed
+                                                    </label>
                                                 </div>
+                                                <div class="radio radiofill radio-primary radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Confirmed" {{$order['status'] == 'Confirmed' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Confirmed
+                                                    </label>
+                                                </div>
+                                                <div class="radio radiofill radio-info radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Delivered" {{$order['status'] == 'Delivered' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Delivered
+                                                    </label>
+                                                </div>
+                                                <div class="radio radiofill radio-success radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Success" {{$order['status'] == 'Success' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Success
+                                                    </label>
+                                                </div>
+                                                <div class="radio radiofill radio-danger radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Failed" {{$order['status'] == 'Failed' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Failed
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Catatan (Opsional)</label>
+                                                @if($order['note'] == '-')
+                                                <textarea class="form-control html-editor" name="note" rows="2" placeholder="Masukkan catatan keterangan berdasarkan status dari pembeli"></textarea>
+                                                @else
+                                                <textarea class="form-control html-editor" name="note" rows="2" placeholder="Masukkan catatan keterangan berdasarkan status dari pembeli">{{$order['note']}}</textarea>
+                                                @endif
+
+                                                
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

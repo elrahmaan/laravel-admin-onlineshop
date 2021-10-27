@@ -100,8 +100,14 @@ class OrderController extends Controller
     {
 
         $order = self::$db->collection('orders')->document($id);
+        if($request->note == null){
+            $note = "-";
+        }else{
+            $note = $request->note;
+        }
         $order->update([
-            ['path' => 'status', 'value' => $request->status]
+            ['path' => 'status', 'value' => $request->status],
+            ['path' => 'note', 'value' => $note],
         ]);
 
         return redirect()->route('order.index')->with('success', 'Status transaksi berhasil diubah');
