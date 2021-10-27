@@ -13,16 +13,16 @@
 @endsection
 
 @section('titleHeader')
-Tambah User
+Tambah User Admin
 @endsection
 
 @section('subtitleHeader')
-Halaman Pembuatan Data User
+Pembuatan Data User Admin
 @endsection
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="#">User</a></li>
-<li class="breadcrumb-item active" aria-current="page">Tambah User</li>
+<li class="breadcrumb-item active" aria-current="page">Tambah User Admin</li>
 @endsection
 
 @section('content')
