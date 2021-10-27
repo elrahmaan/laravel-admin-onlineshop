@@ -27,10 +27,6 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
 
-    Route::get('/user', [UserController::class, 'index'])->name('user');
-    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-    Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
-
     Route::get('/category', [CategoryController::class, 'index'])->name('category');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
@@ -50,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order/{id}/show', [OrderController::class, 'show'])->name('order.show');
     Route::get('/order/{id}/update', [OrderController::class, 'update'])->name('order.update');
 
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/customer', [UserController::class, 'customer'])->name('user.customer');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');

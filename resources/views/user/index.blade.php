@@ -1,11 +1,10 @@
 @extends('master.app')
 
 @section('cssStyle')
-<link rel="stylesheet" href="/style/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
 @endsection
 
 @section('jsStyle')
-<link rel="stylesheet" href="/style/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<script src="/style/js/datatables.js"></script>
 @endsection
 
 @section('iconHeader')
@@ -13,15 +12,15 @@
 @endsection
 
 @section('titleHeader')
-User
+User Admin
 @endsection
 
 @section('subtitleHeader')
-Halaman Data User
+Halaman Data User Admin
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item active" aria-current="page">User</li>
+<li class="breadcrumb-item active" aria-current="page">Admin</li>
 @endsection
 
 @section('content')
@@ -35,9 +34,9 @@ Halaman Data User
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th class="nosort">Avatar</th>
-                                <th>Name</th>
+                                <th>Nama</th>
                                 <th>Email</th>
+                                <th>No. Telp</th>
                                 <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
@@ -48,32 +47,74 @@ Halaman Data User
                             @foreach($users as $user)
                             <tr>
                                 <td>{{$no++}}</td>
-                                <td><img src="{{asset('storage/'.$user->image)}}" alt="users avatar" class="users-avatar-shadow rounded-circle" height="64" width="64"></td>
-                                <td>{{$user->name}}</td>
+                                <td class="text-capitalize">{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->phone}}</td>
                                 <td>{{$user->role}}</td>
                                 <td align="center">
-                                    <a><button type="button" class="btn btn-info" style="width:35px;" data-toggle="modal" data-target="#productModal"><i class="ik ik-eye"></i></button></a>
-                                    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongLabel">Modal title</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>{{$user->name}}</p>
-                                                    <p>{{$user->email}}</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                    @if($user->role!='Super Admin')
+                                    <a href="#"><button type="button" data-toggle="modal" data-target="#editUser{{$user->id}}" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
+                                    <a href="#"><button type="button" class="btn btn-danger delete" data-id="{{$user->id}}" data-name="{{$user->name}}" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
+                                    @endif
+                                </td>
+                                <div class="modal fade" id="editUser{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongLabel">Data Admin</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action="{{route('user.update', $user->id)}}" method="POST" style="margin:0px; padding:0px;">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <label>Nama</label>
+                                                <div class="input-group mb-4">
+                                                    <span class="input-group-prepend">
+                                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                                    </span>
+                                                    <input type="text" class="form-control form-control-capitalize " placeholder="Name" name="name" value="{{$user->name}}" required>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <div class="input-group mb-4">
+                                                    <span class="input-group-prepend">
+                                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                                    </span>
+                                                    <input type="email" class="form-control" placeholder="Email" name="email" value="{{$user->email}}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <div class="input-group mb-4">
+                                                    <span class="input-group-prepend">
+                                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                                    </span>
+                                                    <input type="text" class="form-control" placeholder="Email" name="phone" value="{{$user->phone}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Role</label>
+                                                <div class="input-group mb-4">
+                                                    <span class="input-group-prepend">
+                                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                                    </span>
+                                                    <select name="role" class="select2 form-control" id="default-select">
+                                                        <option>Admin</option>
+                                                        <option>Super Admin</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                <button data-name="{{$user->name}}" type="submit" class="btn btn-primary">Update</button>
+                                            </div>
                                         </div>
+                                        </form>
                                     </div>
-                                    <a href="/user/{{$user->id}}/edit"><button type="button" class="btn btn-warning" style="background-color:#ffc107; border:none; width:35px;"><i class="ik ik-edit iconT"></i></button></a>
-                                    <a href="#"><button type="button" class="btn btn-danger delete" data-id="{{$user->id}}" data-name="{{$user->name}}" style="width:35px;"><i class="ik ik-trash-2 iconT"></i></button></a>
-                                </td>
+                                </div>
                             </tr>
                             @endforeach
                         </tbody>
@@ -100,13 +141,14 @@ Halaman Data User
         var userid = $(this).attr('data-id');
         var username = $(this).attr('data-name');
         Swal.fire({
-            title: 'Are you sure?',
-            text: "Want to delete username " + username + " ",
+            title: 'Apakah anda yakin?',
+            text: "ingin menghapus user '" + username + "' ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            cancelButtonColor: '#AAAAAA',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
                 const Toast = Swal.mixin({
@@ -122,15 +164,15 @@ Halaman Data User
                 })
 
                 Toast.fire({
-                    icon: 'success',
-                    title: 'User has been removed'
+                    icon: 'info',
+                    title: 'Tunggu sebentar, penghapusan data sedang berlangsung'
                 })
                 window.location = "/user/" + userid + "/delete"
             }
         })
-    })
+    });
+    
 </script>
-
 <script type="text/javascript">
     $(document).ready(function() {
 
