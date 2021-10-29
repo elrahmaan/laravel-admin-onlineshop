@@ -106,7 +106,6 @@ class CategoryController extends Controller
         // $category = Category::find($id);
         // $id = $category->id;
         $category = self::$db->collection('categories')->document($id)->snapshot();
-
         return view('category.category_edit', compact('category'));
     }
 
@@ -142,12 +141,38 @@ class CategoryController extends Controller
         }
 
         $category = self::$db->collection('categories')->document($id);
+
+        //ambil nama kategori untuk diparsing ke klausa kondisi pencarian produk
+        $categories = self::$db->collection('categories')->documents();
+        foreach ($categories as $ctg) {
+            if ($ctg->id() == $id) {
+                $categoryName = $ctg['category_name'];
+            }
+        }
+
+        // update kategori produk yang berkaitan dengan kategori yang akan diupdate
+        $productsDelete = self::$db->collection('products')->where('product_category','==',$categoryName)->documents();
+        if($productsDelete ->size() > 0) {  
+            foreach($productsDelete as $prdDelete){  
+                if($prdDelete->exists()){  
+                    $prd = self::$db->collection('products')->document($prdDelete->id());
+                    $prd->update([
+                        ['path' => 'product_category', 'value' => $request->category_name],
+                    ]); 
+                }
+            }  
+        } 
         $category->set([
             'category_code' => $request->category_code,
             'category_name' => $request->category_name,
             'category_icon' => $category_icon,
             'category_desc' => $request->category_desc
         ]);
+
+        
+
+        // $products = self::$db->collection('products')->documents();
+
         // Alert::question('Benar Ingin Edit data?', 'data tidak dapat dikembalikan')->persistent('Close');
         Alert::toast('Update Success', 'success');
         return redirect()->route('category.index');
@@ -169,11 +194,32 @@ class CategoryController extends Controller
         foreach ($categories as $ctg) {
             if ($ctg->id() == $id) {
                 $imageCategory = $ctg['category_icon'];
+                $categoryName = $ctg['category_name'];
             }
         }
         if ($imageCategory) {
             File::delete(public_path($imageCategory));
         }
+
+        // delete produk yang berkaitan dengan kategori yang dihapus
+        $productsDelete = self::$db->collection('products')->where('product_category','==',$categoryName)->documents();
+        if($productsDelete ->size() > 0) {  
+            foreach($productsDelete as $prdDelete){
+                
+
+                if($prdDelete->exists()){
+                    //hapus gambar
+                    $imageProduct = $prdDelete['product_image'];  
+                    if ($imageProduct) {
+                        File::delete(public_path($imageProduct));
+                    }
+
+                    // hapus data
+                    $prd = self::$db->collection('products')->document($prdDelete->id());
+                    $prd->delete();
+                }
+            }  
+        } 
         $category->delete();
         Alert::toast('Delete Success', 'success');
         return redirect()->route('category.index');
