@@ -59,6 +59,8 @@ Halaman Data Transaksi Pemesanan
                                 <span class="badge badge-warning badge-pill">{{$order['status']}}</span>
                                 @elseif($order['status'] == 'Confirmed')
                                 <span class="badge badge-primary badge-pill">{{$order['status']}}</span>
+                                @elseif($order['status'] == 'Invalid')
+                                <span class="badge badge-pill" style="background-color:#ffc107; color:#fff;">{{$order['status']}}</span>
                                 @elseif($order['status'] == 'Delivered')
                                 <span class="badge badge-info badge-pill">{{$order['status']}}</span>
                                 @elseif($order['status'] == 'Success')
@@ -123,36 +125,62 @@ Halaman Data Transaksi Pemesanan
                                             <form style="margin:0px; padding:0px;" action="{{route('order.update', $order->id())}}" method="POST">
                                                 @csrf
                                                 @method('PUT')
+                                                @php
+                                                @endphp
+                                                @if($order['status'] == 'Unconfirmed')
                                                 <div class="radio radiofill radio-warning radio-inline">
                                                     <label>
                                                         <input type="radio" name="status" value="Unconfirmed" {{$order['status'] == 'Unconfirmed' ? 'checked' : ' '}}>
                                                         <i class="helper"></i>Unconfirmed
                                                     </label>
                                                 </div>
+                                                @endif
+
+                                                @if(($order['status'] == 'Unconfirmed') || ($order['status'] == 'Confirmed') || ($order['status'] == 'Invalid'))
                                                 <div class="radio radiofill radio-primary radio-inline">
                                                     <label>
                                                         <input type="radio" name="status" value="Confirmed" {{$order['status'] == 'Confirmed' ? 'checked' : ' '}}>
                                                         <i class="helper"></i>Confirmed
                                                     </label>
                                                 </div>
+                                                @endif
+                                                
+                                                @if(($order['status'] == 'Unconfirmed') || ($order['status'] == 'Invalid'))
+                                                <div class="radio radiofill radio-warning radio-inline">
+                                                    <label>
+                                                        <input type="radio" name="status" value="Invalid" {{$order['status'] == 'Invalid' ? 'checked' : ' '}}>
+                                                        <i class="helper"></i>Invalid
+                                                    </label>
+                                                </div>
+                                                @endif
+                                                
+                                                @if(($order['status'] == 'Unconfirmed') || ($order['status'] == 'Invalid') || ($order['status'] == 'Delivered') || ($order['status'] == 'Confirmed'))
                                                 <div class="radio radiofill radio-info radio-inline">
                                                     <label>
                                                         <input type="radio" name="status" value="Delivered" {{$order['status'] == 'Delivered' ? 'checked' : ' '}}>
                                                         <i class="helper"></i>Delivered
                                                     </label>
                                                 </div>
+                                                @endif
+                                                
+                                                @if($order['status'] != 'Failed')
                                                 <div class="radio radiofill radio-success radio-inline">
                                                     <label>
                                                         <input type="radio" name="status" value="Success" {{$order['status'] == 'Success' ? 'checked' : ' '}}>
                                                         <i class="helper"></i>Success
                                                     </label>
                                                 </div>
+                                                @endif
+                                                
+                                                @if($order['status'] != 'Success')
                                                 <div class="radio radiofill radio-danger radio-inline">
                                                     <label>
                                                         <input type="radio" name="status" value="Failed" {{$order['status'] == 'Failed' ? 'checked' : ' '}}>
                                                         <i class="helper"></i>Failed
                                                     </label>
                                                 </div>
+                                                @endif
+                                                
                                             </div>
                                             <div class="form-group">
                                                 <label>Catatan (Opsional)</label>
