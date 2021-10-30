@@ -80,11 +80,7 @@
                         <!-- <button type="button" class="nav-link ml-10" id="apps_modal_btn" data-toggle="modal" data-target="#appsModal"><i class="ik ik-grid"></i></button> -->
                         <a class="text">{{ Auth::user()->name }}</a>
                         <div class="dropdown">
-                            @if(Auth::user()->image != null)
-                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{asset('storage/'.Auth::user()->image)}}" alt=""></a>
-                            @else
-                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="/style/img/user.jpg" alt=""></a>
-                            @endif
+                            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar" src="{{url('images/user.png')}}" alt=""></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ route('user.edit', Auth::user()->id) }}"><i class="ik ik-user dropdown-icon"></i> Edit Profile</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -174,7 +170,7 @@
                                 <nav class="breadcrumb-container" aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="../index.html"><i class="ik ik-home"></i></a>
+                                            <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                                         </li>
                                         @yield('breadcrumb')
                                         <!-- <li class="breadcrumb-item"><a href="#">Forms</a></li>

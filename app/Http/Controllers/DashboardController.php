@@ -30,27 +30,53 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // $products = self::$db->collection('products')->orderBy('product_code')->documents();
-        // $totalproduct = 
+        $categories = self::$db->collection('categories')->documents();
+        $products = self::$db->collection('products')->documents();
+        $users = self::$db->collection('users')->documents();
+        $orders = self::$db->collection('orders')->documents();
+        $totalOrder = 0;
+        $orderSuccess = 0;
+        $orderUnconfirmed = 0;
+        $orderDelivered = 0;
+        $orderConfirmed = 0;
+        $requestYear = "2021";
+        $limitYear = "";
+        foreach($orders as $ord){
+            if($ord['status'] == 'Success'){
+                if($ord ->size() > 0) {
+                    $limitYear = substr($ord['orderDateTime'], 6, 4);
+                    if($requestYear == $limitYear){
+                        $totalOrder += $ord['totalOrder'];
+                        $orderSuccess++;   
+                    }
+                }
+            }else if($ord['status'] == 'Unconfirmed'){
+                $orderUnconfirmed++;
+            }else if($ord['status'] == 'Delivered'){
+                $orderDelivered++;
+            }else if($ord['status'] == 'Confirmed'){
+                $orderConfirmed++;
+            }       
+        }
 
-        // $totalproduct = $products->count();
+        $countProducts = $products->size();
+        $countCategories = $categories->size();
+        $countUsers = $users->size();
+        $countOrders = $orders->size();
+        
+        
 
+        // $orders = self::$db->collection('orders')->orderBy('userEmail')->documents();
 
-
-        // $products = self::count();
-        // $totalproduct = $reference = $this->db->collection('products')->getSnapshot()->numChildren();
-
-        // $totalproduct = $products->getSnapshot()->numChildren();
-
-        // $totalproduct = $products;
-        // $totalproduct->count;
-        // $userCount = iterator_count($users);
-        // return view('dashboard.index');
-
-        $orders = self::$db->collection('orders')->orderBy('userEmail')->documents();
-
-        $items = self::$db->collection("item-orders")->documents();
-
-        return view('dashboard.index', compact('orders', 'items'));
+        return view('dashboard.index', compact('requestYear','countProducts', 
+            'countCategories', 
+            'countUsers', 
+            'countOrders', 
+            'totalOrder',
+            'orderSuccess', 
+            'orderUnconfirmed',
+            'orderDelivered',
+            'orderConfirmed')
+        );
     }
 }
