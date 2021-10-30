@@ -155,9 +155,9 @@ Halaman Data User Customer
         <i class="ik ik-refresh-ccw"></i>
     </button>
 </a>
-<a class="fixedButtonAdd" href="{{route('user.create')}}">
+<!-- <a class="fixedButtonAdd" href="{{route('user.create')}}">
     <button data-toggle="tooltip" data-placement="top" title="" href="" class="btn btn-icon btn-info" data-original-title="Tambah">
         <i class="ik ik-plus"></i>
     </button>
-</a>
+</a> -->
 @endsection

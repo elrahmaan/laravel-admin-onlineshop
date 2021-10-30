@@ -87,7 +87,7 @@ Halaman Edit Data Kategori Barang
                         </div>
                     </div> -->
                     <div class="footer-buttons">
-                        <a class="fixedButtonRefresh" href="">
+                        <a class="fixedButtonRefresh" href="{{route('category.index')}}">
                             <button data-toggle="tooltip" data-placement="top" title="" type="button" class="btn btn-icon btn-secondary " data-original-title="Kembali">
                                 <i class="ik ik-arrow-left"></i>
                             </button>
