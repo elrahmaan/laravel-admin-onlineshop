@@ -9,7 +9,7 @@
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="/style/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -70,8 +70,6 @@
                         <div class="header-search">
                             <div class="input-group">
                                 <span class="input-group-addon search-close"><i class="ik ik-x"></i></span>
-                                <input type="text" class="form-control">
-                                <span class="input-group-addon search-btn"><i class="ik ik-search"></i></span>
                             </div>
                         </div>
                         <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
@@ -103,7 +101,7 @@
         <div class="page-wrap">
             <div class="app-sidebar colored">
                 <div class="sidebar-header">
-                    <a class="header-brand" href="index.html">
+                    <a class="header-brand" href="#">
                         <div class="logo-img">
                             <img src="/style/src/img/brand-white.svg" class="header-brand-img" alt="lavalite">
                         </div>
@@ -189,99 +187,11 @@
 
             <footer class="footer">
                 <div class="w-100 clearfix">
-                    <span class="text-center text-sm-left d-md-inline-block">Copyright © 2021 ThemeKit v2.0. All Rights Reserved.</span>
-                    <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://lavalite.org/" class="text-dark" target="_blank">Lavalite</a></span>
+                    <span class="text-center text-sm-left d-md-inline-block">Copyright © 2021 Silent Coder All Rights Reserved.</span>
+                    <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Template by <a href="http://lavalite.org/" class="text-dark" target="_blank">Lavalite <i class="fa fa-heart text-danger"></i></a></span>
                 </div>
             </footer>
 
-        </div>
-    </div>
-
-
-
-
-    <div class="modal fade apps-modal" id="appsModal" tabindex="-1" role="dialog" aria-labelledby="appsModalLabel" aria-hidden="true" data-backdrop="false">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="ik ik-x-circle"></i></button>
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="quick-search">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4 ml-auto mr-auto">
-                                <div class="input-wrap">
-                                    <input type="text" id="quick-search" class="form-control" placeholder="Search..." />
-                                    <i class="ik ik-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="container">
-                        <div class="apps-wrap">
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
-                            </div>
-                            <div class="app-item dropdown">
-                                <a href="#" class="dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ik ik-command"></i><span>Ui</span></a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-mail"></i><span>Message</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-users"></i><span>Accounts</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-shopping-cart"></i><span>Sales</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-briefcase"></i><span>Purchase</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-server"></i><span>Menus</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-clipboard"></i><span>Pages</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-message-square"></i><span>Chats</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-map-pin"></i><span>Contacts</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-box"></i><span>Blocks</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-calendar"></i><span>Events</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-bell"></i><span>Notifications</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-pie-chart"></i><span>Reports</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-layers"></i><span>Tasks</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-edit"></i><span>Blogs</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-settings"></i><span>Settings</span></a>
-                            </div>
-                            <div class="app-item">
-                                <a href="#"><i class="ik ik-more-horizontal"></i><span>More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
