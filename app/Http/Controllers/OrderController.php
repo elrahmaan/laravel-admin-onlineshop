@@ -105,13 +105,51 @@ class OrderController extends Controller
         }else{
             $note = $request->note;
         }
+        
+
+        //MENGUBAH STOK KETIKA STATUS SUDAH 'CONFIRMED' (DIKONFIRMASI)
+        if($request->status == 'Confirmed'){
+            // mengambil data user dan nama keranjang produk
+            $orders = self::$db->collection('orders')->documents();
+            foreach ($orders as $ord) {
+                if ($ord->id() == $id) {
+                    $userId = $ord['userId'];
+                    $collectionReff = $ord['collectionRef'];
+                }
+            }
+
+            // mengambil data produk sesuai nama keranjang
+            $productsOrder = self::$db->collection('carts')->document($userId)->collection($collectionReff)->documents();
+            
+            if($productsOrder ->size() > 0) {
+                
+                foreach ($productsOrder as $prdOrder) {
+                    if($prdOrder->exists()){
+                        $productId = $prdOrder['product_id'];
+                        $qty = $prdOrder['product_qty'];
+                        $products = self::$db->collection('products')->documents();
+                        foreach ($products as $product) {
+                            if($product->id() == $productId){
+                                $stock = $product['product_stock'];
+                                $updateStock = $stock - $qty;
+                                // dd($updateStock);
+                                $prod = self::$db->collection('products')->document($productId);
+                                // dd($prod);
+                                $prod->update([
+                                    ['path' => 'product_stock', 'value' => (int)$updateStock],
+                                ]);  
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
         $order->update([
             ['path' => 'status', 'value' => $request->status],
             ['path' => 'note', 'value' => $note],
         ]);
-
         return redirect()->route('order.index')->with('success', 'Status transaksi berhasil diubah');
-        
     }
 
     /**

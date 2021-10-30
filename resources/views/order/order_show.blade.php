@@ -52,6 +52,8 @@ Detail Order
                         <span class="badge badge-warning badge-pill">{{$order['status']}}</span>
                         @elseif($order['status'] == 'Confirmed')
                         <span class="badge badge-primary badge-pill">{{$order['status']}}</span>
+                        @elseif($order['status'] == 'Invalid')
+                        <span class="badge badge-pill" style="background-color:#ffc107; color:#fff;">{{$order['status']}}</span>
                         @elseif($order['status'] == 'Delivered')
                         <span class="badge badge-info badge-pill">{{$order['status']}}</span>
                         @elseif($order['status'] == 'Success')
@@ -115,6 +117,8 @@ Detail Order
                         Pesanan belum dikonfirmasi
                         @elseif($order['status'] == 'Confirmed')
                         Pesanan telah dikonfirmasi
+                        @elseif($order['status'] == 'Invalid')
+                        Pembeli belum memenuhi persyaratan
                         @elseif($order['status'] == 'Delivered')
                         Pesanan dalam proses pengiriman
                         @elseif($order['status'] == 'Success')

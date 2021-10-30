@@ -68,7 +68,7 @@ Halaman Data Barang
                                 <td>{{$product['product_code']}}</td>
                                 <td>{{$product['product_name']}}</td>
                                 <td>{{$category['category_name']}}</td>
-                                <td>IDR {{$product['product_price']}}</td>
+                                <td>IDR {{number_format($product['product_price'], 0, "," , ".")}}</td>
                                 <td>{{$product['product_stock']}}</td>
                                 <td align="center">
                                     <a href="#" data-productName="{{$product['product_name']}}" id="showProduct" class="btn btn-info" style="width:35px;" data-toggle="modal" data-target="#productModal{{$product->id()}}"><i class="ik ik-eye"></i></a>

@@ -130,8 +130,8 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'product_code' => 'required|unique:products',
-            'product_name' => 'required|unique:products',
+            'product_code' => 'required',
+            'product_name' => 'required',
             'product_image' => 'required|mimes:jpg,jpeg,png|max:5120',
             'product_price' => 'required',
             'product_desc' => 'required',
