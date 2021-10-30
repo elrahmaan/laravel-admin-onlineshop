@@ -35,7 +35,7 @@
                         <div class="lavalite-overlay"></div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
+                <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0" style="backdrop-filter: blur(10px);">
                     <div class="authentication-form mx-auto">
                         <div class="logo-centered">
                             <a href="#"><img src="/style/src/img/brand.svg" alt=""><strong>TokoKita</strong></a>

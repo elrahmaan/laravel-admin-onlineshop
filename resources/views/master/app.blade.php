@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="/style/plugins/owl.carousel/dist/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="/style/plugins/owl.carousel/dist/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="/style/dist/css/theme.min.css">
+    <link rel="stylesheet" href="/style/dist/css/style0.css">
+
     @yield('cssStyle')
     <script src="/style/src/js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
@@ -129,11 +131,11 @@
                                 <a href="{{route('user.index')}}"><i class="ik ik-users"></i><span>Admin</span></a>
                             </div>
                             @endcan
-                            
+
                             <div class="nav-item {{Route::is('user.customer') ? 'active' : ''}}">
                                 <a href="{{route('user.customer')}}"><i class="ik ik-users"></i><span>Customer</span></a>
                             </div>
-                            
+
 
                             <div class="nav-lavel">Product</div>
                             <div class="nav-item {{Route::is('category.index') ? 'active' : ''}}">
@@ -191,7 +193,7 @@
 
             <footer class="footer">
                 <div class="w-100 clearfix">
-                    <span class="text-center text-sm-left d-md-inline-block">Copyright © 2018 ThemeKit v2.0. All Rights Reserved.</span>
+                    <span class="text-center text-sm-left d-md-inline-block">Copyright © 2021 ThemeKit v2.0. All Rights Reserved.</span>
                     <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i class="fa fa-heart text-danger"></i> by <a href="http://lavalite.org/" class="text-dark" target="_blank">Lavalite</a></span>
                 </div>
             </footer>
