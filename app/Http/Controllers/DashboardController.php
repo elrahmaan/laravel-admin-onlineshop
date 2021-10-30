@@ -43,13 +43,12 @@ class DashboardController extends Controller
         $limitYear = "";
         foreach($orders as $ord){
             if($ord['status'] == 'Success'){
-                if($ord ->size() > 0) {
-                    $limitYear = substr($ord['orderDateTime'], 6, 4);
-                    if($requestYear == $limitYear){
-                        $totalOrder += $ord['totalOrder'];
-                        $orderSuccess++;   
-                    }
+                $limitYear = substr($ord['orderDateTime'], 6, 4);
+                if($requestYear == $limitYear){
+                    $totalOrder += $ord['totalOrder'];
+                    $orderSuccess++;   
                 }
+                
             }else if($ord['status'] == 'Unconfirmed'){
                 $orderUnconfirmed++;
             }else if($ord['status'] == 'Delivered'){
